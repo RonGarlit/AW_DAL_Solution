@@ -1,0 +1,78 @@
+AdventureWorks Project Names
+
+AW_DAL_Solution
+
+AW_HumanResourceDAL = AWHRDb  =  AW2016_HRDB  = HRDBContext
+AW_PersonDAL = AWPersDb  =  AW2016_PersDb  = PersDbContext
+AW_ProductionDAL = AWProdDb  =  AW2016_ProdDb  = ProdDbContext
+AW_PurchasingDAL = AWPurchDb  =  AW2016_PurchDb  = PurchDbContext
+AW_SalesDAL = AWSalesDb  =  AW2016_SalesDb  = SalesDbContext
+AW_SharedViewsSProcsDAL = AWSharedDB  =  AW2016_SharedDB  = SharedDBContext
+
+=======================================
+    Settings.ConnectionStringName = "AW2016_HRDB";   // Searches for this connection string in config files listed below in the ConfigFilenameSearchOrder setting
+
+    Settings.DbContextName = "HRDBContext";
+    
+    Settings.ConfigurationClassName = "Mapping"; // Configuration, Mapping, Map, etc. This is appended to the Poco class name to configure the mappings.
+    
+    Settings.UseDataAnnotations = true; // If true, will add data annotations to the poco classes.
+    
+    Settings.PrependSchemaName = true;   // Control if the schema name is prepended to the table name
+
+    Settings.TableSuffix = "Entity";
+    
+    Settings.SchemaFilterExclude = null;
+    Settings.SchemaFilterInclude = new Regex(".*HumanResources.*");
+	Settings.SchemaFilterInclude = new Regex(".*Person.*");
+	Settings.SchemaFilterInclude = new Regex(".*Production.*");
+	Settings.SchemaFilterInclude = new Regex(".*Purchasing.*");
+	Settings.SchemaFilterInclude = new Regex(".*Sales.*");
+	Settings.SchemaFilterInclude = new Regex(".*dbo.*");
+    Settings.TableFilterExclude = null;
+    Settings.TableFilterInclude = null;
+    Settings.ColumnFilterExclude = null;
+    
+    
+    
+<connectionStrings>
+    <add name="AW2016_HRDB" connectionString="Data Source=DESKTOP-PDAFJ6Q;Initial Catalog=AdventureWorks2016;Integrated Security=True" providerName="System.Data.SqlClient" />
+</connectionStrings>
+
+  <connectionStrings>
+    <add name="AW2016_PersDb" connectionString="Data Source=DESKTOP-PDAFJ6Q;Initial Catalog=AdventureWorks2016;Integrated Security=True" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+
+  <connectionStrings>
+    <add name="AW2016_ProdDb" connectionString="Data Source=DESKTOP-PDAFJ6Q;Initial Catalog=AdventureWorks2016;Integrated Security=True" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+
+<connectionStrings>
+    <add name="AW2016_PurchDb" connectionString="Data Source=DESKTOP-PDAFJ6Q;Initial Catalog=AdventureWorks2016;Integrated Security=True" providerName="System.Data.SqlClient" />
+</connectionStrings>
+
+<connectionStrings>
+    <add name="AW2016_SalesDb" connectionString="Data Source=DESKTOP-PDAFJ6Q;Initial Catalog=AdventureWorks2016;Integrated Security=True" providerName="System.Data.SqlClient" />
+</connectionStrings>
+
+<connectionStrings>
+    <add name="AW2016_SharedDB" connectionString="Data Source=DESKTOP-PDAFJ6Q;Initial Catalog=AdventureWorks2016;Integrated Security=True" providerName="System.Data.SqlClient" />
+</connectionStrings>
+
+=================================================================================
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
+    <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+  </configSections>
+  <connectionStrings>
+    <add name="AW2016_HRDB" connectionString="Data Source=DESKTOP-PDAFJ6Q;Initial Catalog=AdventureWorks2016;Integrated Security=True" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+  <entityFramework>
+    <defaultConnectionFactory type="System.Data.Entity.Infrastructure.SqlConnectionFactory, EntityFramework" />
+    <providers>
+      <provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
+    </providers>
+  </entityFramework>
+</configuration>
