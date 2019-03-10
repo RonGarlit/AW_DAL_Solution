@@ -37,7 +37,7 @@ namespace AW_HumanResourceDAL
 
     #region Unit of work
 
-    public interface IHRDBContext : System.IDisposable
+    public partial interface IHRDBContext : System.IDisposable
     {
         System.Data.Entity.DbSet<HumanResources_DepartmentEntity> HumanResources_Departments { get; set; } // Department
         System.Data.Entity.DbSet<HumanResources_EmployeeEntity> HumanResources_Employees { get; set; } // Employee
@@ -82,7 +82,7 @@ namespace AW_HumanResourceDAL
     #region Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HRDBContext : System.Data.Entity.DbContext, IHRDBContext
+    public partial class HRDBContext : System.Data.Entity.DbContext, IHRDBContext
     {
         public System.Data.Entity.DbSet<HumanResources_DepartmentEntity> HumanResources_Departments { get; set; } // Department
         public System.Data.Entity.DbSet<HumanResources_EmployeeEntity> HumanResources_Employees { get; set; } // Employee
@@ -105,30 +105,36 @@ namespace AW_HumanResourceDAL
         public HRDBContext()
             : base("Name=AW2016_HRDB")
         {
+            InitializePartial();
         }
 
         public HRDBContext(string connectionString)
             : base(connectionString)
         {
+            InitializePartial();
         }
 
         public HRDBContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model)
             : base(connectionString, model)
         {
+            InitializePartial();
         }
 
         public HRDBContext(System.Data.Common.DbConnection existingConnection, bool contextOwnsConnection)
             : base(existingConnection, contextOwnsConnection)
         {
+            InitializePartial();
         }
 
         public HRDBContext(System.Data.Common.DbConnection existingConnection, System.Data.Entity.Infrastructure.DbCompiledModel model, bool contextOwnsConnection)
             : base(existingConnection, model, contextOwnsConnection)
         {
+            InitializePartial();
         }
 
         protected override void Dispose(bool disposing)
         {
+            DisposePartial(disposing);
             base.Dispose(disposing);
         }
 
@@ -157,6 +163,8 @@ namespace AW_HumanResourceDAL
             modelBuilder.Configurations.Add(new HumanResources_VJobCandidateEntityMapping());
             modelBuilder.Configurations.Add(new HumanResources_VJobCandidateEducationEntityMapping());
             modelBuilder.Configurations.Add(new HumanResources_VJobCandidateEmploymentEntityMapping());
+
+            OnModelCreatingPartial(modelBuilder);
         }
 
         public static System.Data.Entity.DbModelBuilder CreateModel(System.Data.Entity.DbModelBuilder modelBuilder, string schema)
@@ -173,8 +181,14 @@ namespace AW_HumanResourceDAL
             modelBuilder.Configurations.Add(new HumanResources_VJobCandidateEntityMapping(schema));
             modelBuilder.Configurations.Add(new HumanResources_VJobCandidateEducationEntityMapping(schema));
             modelBuilder.Configurations.Add(new HumanResources_VJobCandidateEmploymentEntityMapping(schema));
+            OnCreateModelPartial(modelBuilder, schema);
             return modelBuilder;
         }
+
+        partial void InitializePartial();
+        partial void DisposePartial(bool disposing);
+        partial void OnModelCreatingPartial(System.Data.Entity.DbModelBuilder modelBuilder);
+		static partial void OnCreateModelPartial(System.Data.Entity.DbModelBuilder modelBuilder, string schema);        
 
         // Stored Procedures
         public int HumanResources_UspUpdateEmployeeHireInfo(int? businessEntityId, string jobTitle, System.DateTime? hireDate, System.DateTime? rateChangeDate, decimal? rate, byte? payFrequency, bool? currentFlag)
@@ -281,7 +295,7 @@ namespace AW_HumanResourceDAL
 
     #region Database context factory
 
-    public class HRDBContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<HRDBContext>
+    public partial class HRDBContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<HRDBContext>
     {
         public HRDBContext Create()
         {
@@ -294,7 +308,7 @@ namespace AW_HumanResourceDAL
     #region Fake Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeHRDBContext : IHRDBContext
+    public partial class FakeHRDBContext : IHRDBContext
     {
         public System.Data.Entity.DbSet<HumanResources_DepartmentEntity> HumanResources_Departments { get; set; }
         public System.Data.Entity.DbSet<HumanResources_EmployeeEntity> HumanResources_Employees { get; set; }
@@ -327,6 +341,8 @@ namespace AW_HumanResourceDAL
             HumanResources_VJobCandidates = new FakeDbSet<HumanResources_VJobCandidateEntity>("JobCandidateId", "ModifiedDate");
             HumanResources_VJobCandidateEducations = new FakeDbSet<HumanResources_VJobCandidateEducationEntity>("JobCandidateId");
             HumanResources_VJobCandidateEmployments = new FakeDbSet<HumanResources_VJobCandidateEmploymentEntity>("JobCandidateId");
+
+            InitializePartial();
         }
 
         public int SaveChangesCount { get; private set; }
@@ -347,6 +363,8 @@ namespace AW_HumanResourceDAL
             ++SaveChangesCount;
             return System.Threading.Tasks.Task<int>.Factory.StartNew(() => 1, cancellationToken);
         }
+
+        partial void InitializePartial();
 
         protected virtual void Dispose(bool disposing)
         {
@@ -428,7 +446,7 @@ namespace AW_HumanResourceDAL
     //      }
     //      Read more about it here: https://msdn.microsoft.com/en-us/data/dn314431.aspx
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbSet<TEntity> : System.Data.Entity.DbSet<TEntity>, IQueryable, System.Collections.Generic.IEnumerable<TEntity>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<TEntity> where TEntity : class
+    public partial class FakeDbSet<TEntity> : System.Data.Entity.DbSet<TEntity>, IQueryable, System.Collections.Generic.IEnumerable<TEntity>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<TEntity> where TEntity : class
     {
         private readonly System.Reflection.PropertyInfo[] _primaryKeys;
         private readonly System.Collections.ObjectModel.ObservableCollection<TEntity> _data;
@@ -438,6 +456,8 @@ namespace AW_HumanResourceDAL
         {
             _data = new System.Collections.ObjectModel.ObservableCollection<TEntity>();
             _query = _data.AsQueryable();
+
+            InitializePartial();
         }
 
         public FakeDbSet(params string[] primaryKeys)
@@ -445,6 +465,8 @@ namespace AW_HumanResourceDAL
             _primaryKeys = typeof(TEntity).GetProperties().Where(x => primaryKeys.Contains(x.Name)).ToArray();
             _data = new System.Collections.ObjectModel.ObservableCollection<TEntity>();
             _query = _data.AsQueryable();
+
+            InitializePartial();
         }
 
         public override TEntity Find(params object[] keyValues)
@@ -561,10 +583,12 @@ namespace AW_HumanResourceDAL
         {
             return new FakeDbAsyncEnumerator<TEntity>(_data.GetEnumerator());
         }
+
+        partial void InitializePartial();
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncQueryProvider<TEntity> : System.Data.Entity.Infrastructure.IDbAsyncQueryProvider
+    public partial class FakeDbAsyncQueryProvider<TEntity> : System.Data.Entity.Infrastructure.IDbAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
 
@@ -614,7 +638,7 @@ namespace AW_HumanResourceDAL
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncEnumerable<T> : EnumerableQuery<T>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<T>, IQueryable<T>
+    public partial class FakeDbAsyncEnumerable<T> : EnumerableQuery<T>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<T>, IQueryable<T>
     {
         public FakeDbAsyncEnumerable(System.Collections.Generic.IEnumerable<T> enumerable)
             : base(enumerable)
@@ -641,7 +665,7 @@ namespace AW_HumanResourceDAL
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncEnumerator<T> : System.Data.Entity.Infrastructure.IDbAsyncEnumerator<T>
+    public partial class FakeDbAsyncEnumerator<T> : System.Data.Entity.Infrastructure.IDbAsyncEnumerator<T>
     {
         private readonly System.Collections.Generic.IEnumerator<T> _inner;
 
@@ -681,7 +705,7 @@ namespace AW_HumanResourceDAL
     ///</summary>
     [Table("Department", Schema = "HumanResources")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_DepartmentEntity
+    public partial class HumanResources_DepartmentEntity
     {
 
         ///<summary>
@@ -736,7 +760,10 @@ namespace AW_HumanResourceDAL
         {
             ModifiedDate = System.DateTime.Now;
             HumanResources_EmployeeDepartmentHistories = new System.Collections.Generic.List<HumanResources_EmployeeDepartmentHistoryEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // Employee
@@ -745,7 +772,7 @@ namespace AW_HumanResourceDAL
     ///</summary>
     [Table("Employee", Schema = "HumanResources")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_EmployeeEntity
+    public partial class HumanResources_EmployeeEntity
     {
 
         ///<summary>
@@ -923,7 +950,10 @@ namespace AW_HumanResourceDAL
             HumanResources_EmployeeDepartmentHistories = new System.Collections.Generic.List<HumanResources_EmployeeDepartmentHistoryEntity>();
             HumanResources_EmployeePayHistories = new System.Collections.Generic.List<HumanResources_EmployeePayHistoryEntity>();
             HumanResources_JobCandidates = new System.Collections.Generic.List<HumanResources_JobCandidateEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // EmployeeDepartmentHistory
@@ -932,7 +962,7 @@ namespace AW_HumanResourceDAL
     ///</summary>
     [Table("EmployeeDepartmentHistory", Schema = "HumanResources")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_EmployeeDepartmentHistoryEntity
+    public partial class HumanResources_EmployeeDepartmentHistoryEntity
     {
 
         ///<summary>
@@ -1019,7 +1049,10 @@ namespace AW_HumanResourceDAL
         public HumanResources_EmployeeDepartmentHistoryEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // EmployeePayHistory
@@ -1028,7 +1061,7 @@ namespace AW_HumanResourceDAL
     ///</summary>
     [Table("EmployeePayHistory", Schema = "HumanResources")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_EmployeePayHistoryEntity
+    public partial class HumanResources_EmployeePayHistoryEntity
     {
 
         ///<summary>
@@ -1090,7 +1123,10 @@ namespace AW_HumanResourceDAL
         public HumanResources_EmployeePayHistoryEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // JobCandidate
@@ -1099,7 +1135,7 @@ namespace AW_HumanResourceDAL
     ///</summary>
     [Table("JobCandidate", Schema = "HumanResources")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_JobCandidateEntity
+    public partial class HumanResources_JobCandidateEntity
     {
 
         ///<summary>
@@ -1147,7 +1183,10 @@ namespace AW_HumanResourceDAL
         public HumanResources_JobCandidateEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // Shift
@@ -1156,7 +1195,7 @@ namespace AW_HumanResourceDAL
     ///</summary>
     [Table("Shift", Schema = "HumanResources")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_ShiftEntity
+    public partial class HumanResources_ShiftEntity
     {
 
         ///<summary>
@@ -1219,13 +1258,16 @@ namespace AW_HumanResourceDAL
         {
             ModifiedDate = System.DateTime.Now;
             HumanResources_EmployeeDepartmentHistories = new System.Collections.Generic.List<HumanResources_EmployeeDepartmentHistoryEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // vEmployee
     [Table("vEmployee", Schema = "HumanResources")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_VEmployeeEntity
+    public partial class HumanResources_VEmployeeEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"BusinessEntityID", Order = 1, TypeName = "int")]
@@ -1361,12 +1403,19 @@ namespace AW_HumanResourceDAL
         [Column(@"AdditionalContactInfo", Order = 18, TypeName = "xml")]
         [Display(Name = "Additional contact info")]
         public string AdditionalContactInfo { get; set; } // AdditionalContactInfo
+
+        public HumanResources_VEmployeeEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vEmployeeDepartment
     [Table("vEmployeeDepartment", Schema = "HumanResources")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_VEmployeeDepartmentEntity
+    public partial class HumanResources_VEmployeeDepartmentEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"BusinessEntityID", Order = 1, TypeName = "int")]
@@ -1445,12 +1494,19 @@ namespace AW_HumanResourceDAL
         [DataType(DataType.Date)]
         [Display(Name = "Start date")]
         public System.DateTime StartDate { get; set; } // StartDate (Primary key)
+
+        public HumanResources_VEmployeeDepartmentEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vEmployeeDepartmentHistory
     [Table("vEmployeeDepartmentHistory", Schema = "HumanResources")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_VEmployeeDepartmentHistoryEntity
+    public partial class HumanResources_VEmployeeDepartmentHistoryEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"BusinessEntityID", Order = 1, TypeName = "int")]
@@ -1534,12 +1590,19 @@ namespace AW_HumanResourceDAL
         [DataType(DataType.Date)]
         [Display(Name = "End date")]
         public System.DateTime? EndDate { get; set; } // EndDate
+
+        public HumanResources_VEmployeeDepartmentHistoryEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vJobCandidate
     [Table("vJobCandidate", Schema = "HumanResources")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_VJobCandidateEntity
+    public partial class HumanResources_VJobCandidateEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(@"JobCandidateID", Order = 1, TypeName = "int")]
@@ -1632,12 +1695,19 @@ namespace AW_HumanResourceDAL
         [DataType(DataType.DateTime)]
         [Display(Name = "Modified date")]
         public System.DateTime ModifiedDate { get; set; } // ModifiedDate (Primary key)
+
+        public HumanResources_VJobCandidateEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vJobCandidateEducation
     [Table("vJobCandidateEducation", Schema = "HumanResources")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_VJobCandidateEducationEntity
+    public partial class HumanResources_VJobCandidateEducationEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(@"JobCandidateID", Order = 1, TypeName = "int")]
@@ -1713,12 +1783,19 @@ namespace AW_HumanResourceDAL
         [StringLength(100)]
         [Display(Name = "Edu loc city")]
         public string Edu46Loc46City { get; set; } // Edu.Loc.City (length: 100)
+
+        public HumanResources_VJobCandidateEducationEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vJobCandidateEmployment
     [Table("vJobCandidateEmployment", Schema = "HumanResources")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_VJobCandidateEmploymentEntity
+    public partial class HumanResources_VJobCandidateEmploymentEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(@"JobCandidateID", Order = 1, TypeName = "int")]
@@ -1772,6 +1849,13 @@ namespace AW_HumanResourceDAL
         [Column(@"Emp.Loc.City", Order = 11, TypeName = "nvarchar(max)")]
         [Display(Name = "Emp loc city")]
         public string Emp46Loc46City { get; set; } // Emp.Loc.City
+
+        public HumanResources_VJobCandidateEmploymentEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     #endregion
@@ -1780,7 +1864,7 @@ namespace AW_HumanResourceDAL
 
     // Department
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_DepartmentEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_DepartmentEntity>
+    public partial class HumanResources_DepartmentEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_DepartmentEntity>
     {
         public HumanResources_DepartmentEntityMapping()
             : this("HumanResources")
@@ -1789,12 +1873,14 @@ namespace AW_HumanResourceDAL
 
         public HumanResources_DepartmentEntityMapping(string schema)
         {
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // Employee
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_EmployeeEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_EmployeeEntity>
+    public partial class HumanResources_EmployeeEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_EmployeeEntity>
     {
         public HumanResources_EmployeeEntityMapping()
             : this("HumanResources")
@@ -1807,12 +1893,14 @@ namespace AW_HumanResourceDAL
             Property(x => x.OrganizationLevel).IsOptional();
             Property(x => x.MaritalStatus).IsFixedLength();
             Property(x => x.Gender).IsFixedLength();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // EmployeeDepartmentHistory
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_EmployeeDepartmentHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_EmployeeDepartmentHistoryEntity>
+    public partial class HumanResources_EmployeeDepartmentHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_EmployeeDepartmentHistoryEntity>
     {
         public HumanResources_EmployeeDepartmentHistoryEntityMapping()
             : this("HumanResources")
@@ -1823,12 +1911,14 @@ namespace AW_HumanResourceDAL
         {
             Property(x => x.EndDate).IsOptional();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // EmployeePayHistory
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_EmployeePayHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_EmployeePayHistoryEntity>
+    public partial class HumanResources_EmployeePayHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_EmployeePayHistoryEntity>
     {
         public HumanResources_EmployeePayHistoryEntityMapping()
             : this("HumanResources")
@@ -1839,12 +1929,14 @@ namespace AW_HumanResourceDAL
         {
             Property(x => x.Rate).HasPrecision(19,4);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // JobCandidate
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_JobCandidateEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_JobCandidateEntity>
+    public partial class HumanResources_JobCandidateEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_JobCandidateEntity>
     {
         public HumanResources_JobCandidateEntityMapping()
             : this("HumanResources")
@@ -1856,12 +1948,14 @@ namespace AW_HumanResourceDAL
             Property(x => x.BusinessEntityId).IsOptional();
             Property(x => x.Resume).IsOptional();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // Shift
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_ShiftEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_ShiftEntity>
+    public partial class HumanResources_ShiftEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_ShiftEntity>
     {
         public HumanResources_ShiftEntityMapping()
             : this("HumanResources")
@@ -1870,12 +1964,14 @@ namespace AW_HumanResourceDAL
 
         public HumanResources_ShiftEntityMapping(string schema)
         {
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vEmployee
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_VEmployeeEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_VEmployeeEntity>
+    public partial class HumanResources_VEmployeeEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_VEmployeeEntity>
     {
         public HumanResources_VEmployeeEntityMapping()
             : this("HumanResources")
@@ -1892,12 +1988,14 @@ namespace AW_HumanResourceDAL
             Property(x => x.EmailAddress).IsOptional();
             Property(x => x.AddressLine2).IsOptional();
             Property(x => x.AdditionalContactInfo).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vEmployeeDepartment
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_VEmployeeDepartmentEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_VEmployeeDepartmentEntity>
+    public partial class HumanResources_VEmployeeDepartmentEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_VEmployeeDepartmentEntity>
     {
         public HumanResources_VEmployeeDepartmentEntityMapping()
             : this("HumanResources")
@@ -1909,12 +2007,14 @@ namespace AW_HumanResourceDAL
             Property(x => x.Title).IsOptional();
             Property(x => x.MiddleName).IsOptional();
             Property(x => x.Suffix).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vEmployeeDepartmentHistory
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_VEmployeeDepartmentHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_VEmployeeDepartmentHistoryEntity>
+    public partial class HumanResources_VEmployeeDepartmentHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_VEmployeeDepartmentHistoryEntity>
     {
         public HumanResources_VEmployeeDepartmentHistoryEntityMapping()
             : this("HumanResources")
@@ -1927,12 +2027,14 @@ namespace AW_HumanResourceDAL
             Property(x => x.MiddleName).IsOptional();
             Property(x => x.Suffix).IsOptional();
             Property(x => x.EndDate).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vJobCandidate
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_VJobCandidateEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_VJobCandidateEntity>
+    public partial class HumanResources_VJobCandidateEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_VJobCandidateEntity>
     {
         public HumanResources_VJobCandidateEntityMapping()
             : this("HumanResources")
@@ -1955,12 +2057,14 @@ namespace AW_HumanResourceDAL
             Property(x => x.Addr46PostalCode).IsOptional();
             Property(x => x.EMail).IsOptional();
             Property(x => x.WebSite).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vJobCandidateEducation
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_VJobCandidateEducationEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_VJobCandidateEducationEntity>
+    public partial class HumanResources_VJobCandidateEducationEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_VJobCandidateEducationEntity>
     {
         public HumanResources_VJobCandidateEducationEntityMapping()
             : this("HumanResources")
@@ -1981,12 +2085,14 @@ namespace AW_HumanResourceDAL
             Property(x => x.Edu46Loc46CountryRegion).IsOptional();
             Property(x => x.Edu46Loc46State).IsOptional();
             Property(x => x.Edu46Loc46City).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vJobCandidateEmployment
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class HumanResources_VJobCandidateEmploymentEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_VJobCandidateEmploymentEntity>
+    public partial class HumanResources_VJobCandidateEmploymentEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<HumanResources_VJobCandidateEmploymentEntity>
     {
         public HumanResources_VJobCandidateEmploymentEntityMapping()
             : this("HumanResources")
@@ -2005,7 +2111,9 @@ namespace AW_HumanResourceDAL
             Property(x => x.Emp46Loc46CountryRegion).IsOptional();
             Property(x => x.Emp46Loc46State).IsOptional();
             Property(x => x.Emp46Loc46City).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     #endregion

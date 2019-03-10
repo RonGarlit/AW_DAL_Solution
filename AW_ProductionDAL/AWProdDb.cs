@@ -37,7 +37,7 @@ namespace AW_ProductionDAL
 
     #region Unit of work
 
-    public interface IProdDbContext : System.IDisposable
+    public partial interface IProdDbContext : System.IDisposable
     {
         System.Data.Entity.DbSet<Production_BillOfMaterialEntity> Production_BillOfMaterials { get; set; } // BillOfMaterials
         System.Data.Entity.DbSet<Production_CultureEntity> Production_Cultures { get; set; } // Culture
@@ -87,7 +87,7 @@ namespace AW_ProductionDAL
     #region Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class ProdDbContext : System.Data.Entity.DbContext, IProdDbContext
+    public partial class ProdDbContext : System.Data.Entity.DbContext, IProdDbContext
     {
         public System.Data.Entity.DbSet<Production_BillOfMaterialEntity> Production_BillOfMaterials { get; set; } // BillOfMaterials
         public System.Data.Entity.DbSet<Production_CultureEntity> Production_Cultures { get; set; } // Culture
@@ -126,30 +126,36 @@ namespace AW_ProductionDAL
         public ProdDbContext()
             : base("Name=AW2016_ProdDb")
         {
+            InitializePartial();
         }
 
         public ProdDbContext(string connectionString)
             : base(connectionString)
         {
+            InitializePartial();
         }
 
         public ProdDbContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model)
             : base(connectionString, model)
         {
+            InitializePartial();
         }
 
         public ProdDbContext(System.Data.Common.DbConnection existingConnection, bool contextOwnsConnection)
             : base(existingConnection, contextOwnsConnection)
         {
+            InitializePartial();
         }
 
         public ProdDbContext(System.Data.Common.DbConnection existingConnection, System.Data.Entity.Infrastructure.DbCompiledModel model, bool contextOwnsConnection)
             : base(existingConnection, model, contextOwnsConnection)
         {
+            InitializePartial();
         }
 
         protected override void Dispose(bool disposing)
         {
+            DisposePartial(disposing);
             base.Dispose(disposing);
         }
 
@@ -194,6 +200,8 @@ namespace AW_ProductionDAL
             modelBuilder.Configurations.Add(new Production_VProductModelInstructionEntityMapping());
             modelBuilder.Configurations.Add(new Production_WorkOrderEntityMapping());
             modelBuilder.Configurations.Add(new Production_WorkOrderRoutingEntityMapping());
+
+            OnModelCreatingPartial(modelBuilder);
         }
 
         public static System.Data.Entity.DbModelBuilder CreateModel(System.Data.Entity.DbModelBuilder modelBuilder, string schema)
@@ -226,14 +234,20 @@ namespace AW_ProductionDAL
             modelBuilder.Configurations.Add(new Production_VProductModelInstructionEntityMapping(schema));
             modelBuilder.Configurations.Add(new Production_WorkOrderEntityMapping(schema));
             modelBuilder.Configurations.Add(new Production_WorkOrderRoutingEntityMapping(schema));
+            OnCreateModelPartial(modelBuilder, schema);
             return modelBuilder;
         }
+
+        partial void InitializePartial();
+        partial void DisposePartial(bool disposing);
+        partial void OnModelCreatingPartial(System.Data.Entity.DbModelBuilder modelBuilder);
+		static partial void OnCreateModelPartial(System.Data.Entity.DbModelBuilder modelBuilder, string schema);        
     }
     #endregion
 
     #region Database context factory
 
-    public class ProdDbContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<ProdDbContext>
+    public partial class ProdDbContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<ProdDbContext>
     {
         public ProdDbContext Create()
         {
@@ -246,7 +260,7 @@ namespace AW_ProductionDAL
     #region Fake Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeProdDbContext : IProdDbContext
+    public partial class FakeProdDbContext : IProdDbContext
     {
         public System.Data.Entity.DbSet<Production_BillOfMaterialEntity> Production_BillOfMaterials { get; set; }
         public System.Data.Entity.DbSet<Production_CultureEntity> Production_Cultures { get; set; }
@@ -311,6 +325,8 @@ namespace AW_ProductionDAL
             Production_VProductModelInstructions = new FakeDbSet<Production_VProductModelInstructionEntity>("ProductModelId", "Name", "Rowguid", "ModifiedDate");
             Production_WorkOrders = new FakeDbSet<Production_WorkOrderEntity>("WorkOrderId");
             Production_WorkOrderRoutings = new FakeDbSet<Production_WorkOrderRoutingEntity>("WorkOrderId", "ProductId", "OperationSequence");
+
+            InitializePartial();
         }
 
         public int SaveChangesCount { get; private set; }
@@ -331,6 +347,8 @@ namespace AW_ProductionDAL
             ++SaveChangesCount;
             return System.Threading.Tasks.Task<int>.Factory.StartNew(() => 1, cancellationToken);
         }
+
+        partial void InitializePartial();
 
         protected virtual void Dispose(bool disposing)
         {
@@ -392,7 +410,7 @@ namespace AW_ProductionDAL
     //      }
     //      Read more about it here: https://msdn.microsoft.com/en-us/data/dn314431.aspx
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbSet<TEntity> : System.Data.Entity.DbSet<TEntity>, IQueryable, System.Collections.Generic.IEnumerable<TEntity>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<TEntity> where TEntity : class
+    public partial class FakeDbSet<TEntity> : System.Data.Entity.DbSet<TEntity>, IQueryable, System.Collections.Generic.IEnumerable<TEntity>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<TEntity> where TEntity : class
     {
         private readonly System.Reflection.PropertyInfo[] _primaryKeys;
         private readonly System.Collections.ObjectModel.ObservableCollection<TEntity> _data;
@@ -402,6 +420,8 @@ namespace AW_ProductionDAL
         {
             _data = new System.Collections.ObjectModel.ObservableCollection<TEntity>();
             _query = _data.AsQueryable();
+
+            InitializePartial();
         }
 
         public FakeDbSet(params string[] primaryKeys)
@@ -409,6 +429,8 @@ namespace AW_ProductionDAL
             _primaryKeys = typeof(TEntity).GetProperties().Where(x => primaryKeys.Contains(x.Name)).ToArray();
             _data = new System.Collections.ObjectModel.ObservableCollection<TEntity>();
             _query = _data.AsQueryable();
+
+            InitializePartial();
         }
 
         public override TEntity Find(params object[] keyValues)
@@ -525,10 +547,12 @@ namespace AW_ProductionDAL
         {
             return new FakeDbAsyncEnumerator<TEntity>(_data.GetEnumerator());
         }
+
+        partial void InitializePartial();
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncQueryProvider<TEntity> : System.Data.Entity.Infrastructure.IDbAsyncQueryProvider
+    public partial class FakeDbAsyncQueryProvider<TEntity> : System.Data.Entity.Infrastructure.IDbAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
 
@@ -578,7 +602,7 @@ namespace AW_ProductionDAL
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncEnumerable<T> : EnumerableQuery<T>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<T>, IQueryable<T>
+    public partial class FakeDbAsyncEnumerable<T> : EnumerableQuery<T>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<T>, IQueryable<T>
     {
         public FakeDbAsyncEnumerable(System.Collections.Generic.IEnumerable<T> enumerable)
             : base(enumerable)
@@ -605,7 +629,7 @@ namespace AW_ProductionDAL
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncEnumerator<T> : System.Data.Entity.Infrastructure.IDbAsyncEnumerator<T>
+    public partial class FakeDbAsyncEnumerator<T> : System.Data.Entity.Infrastructure.IDbAsyncEnumerator<T>
     {
         private readonly System.Collections.Generic.IEnumerator<T> _inner;
 
@@ -645,7 +669,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("BillOfMaterials", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_BillOfMaterialEntity
+    public partial class Production_BillOfMaterialEntity
     {
 
         ///<summary>
@@ -752,7 +776,10 @@ namespace AW_ProductionDAL
             StartDate = System.DateTime.Now;
             PerAssemblyQty = 1.00m;
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // Culture
@@ -761,7 +788,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("Culture", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_CultureEntity
+    public partial class Production_CultureEntity
     {
 
         ///<summary>
@@ -808,7 +835,10 @@ namespace AW_ProductionDAL
         {
             ModifiedDate = System.DateTime.Now;
             Production_ProductModelProductDescriptionCultures = new System.Collections.Generic.List<Production_ProductModelProductDescriptionCultureEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // Document
@@ -817,7 +847,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("Document", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_DocumentEntity
+    public partial class Production_DocumentEntity
     {
 
         ///<summary>
@@ -962,7 +992,10 @@ namespace AW_ProductionDAL
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
             Production_ProductDocuments = new System.Collections.Generic.List<Production_ProductDocumentEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // Illustration
@@ -971,7 +1004,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("Illustration", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_IllustrationEntity
+    public partial class Production_IllustrationEntity
     {
 
         ///<summary>
@@ -1012,7 +1045,10 @@ namespace AW_ProductionDAL
         {
             ModifiedDate = System.DateTime.Now;
             Production_ProductModelIllustrations = new System.Collections.Generic.List<Production_ProductModelIllustrationEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // Location
@@ -1021,7 +1057,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("Location", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_LocationEntity
+    public partial class Production_LocationEntity
     {
 
         ///<summary>
@@ -1090,7 +1126,10 @@ namespace AW_ProductionDAL
             ModifiedDate = System.DateTime.Now;
             Production_ProductInventories = new System.Collections.Generic.List<Production_ProductInventoryEntity>();
             Production_WorkOrderRoutings = new System.Collections.Generic.List<Production_WorkOrderRoutingEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // Product
@@ -1099,7 +1138,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("Product", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductEntity
+    public partial class Production_ProductEntity
     {
 
         ///<summary>
@@ -1401,7 +1440,10 @@ namespace AW_ProductionDAL
             Production_ProductReviews = new System.Collections.Generic.List<Production_ProductReviewEntity>();
             Production_TransactionHistories = new System.Collections.Generic.List<Production_TransactionHistoryEntity>();
             Production_WorkOrders = new System.Collections.Generic.List<Production_WorkOrderEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ProductCategory
@@ -1410,7 +1452,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ProductCategory", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductCategoryEntity
+    public partial class Production_ProductCategoryEntity
     {
 
         ///<summary>
@@ -1465,7 +1507,10 @@ namespace AW_ProductionDAL
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
             Production_ProductSubcategories = new System.Collections.Generic.List<Production_ProductSubcategoryEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ProductCostHistory
@@ -1474,7 +1519,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ProductCostHistory", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductCostHistoryEntity
+    public partial class Production_ProductCostHistoryEntity
     {
 
         ///<summary>
@@ -1536,7 +1581,10 @@ namespace AW_ProductionDAL
         public Production_ProductCostHistoryEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ProductDescription
@@ -1545,7 +1593,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ProductDescription", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductDescriptionEntity
+    public partial class Production_ProductDescriptionEntity
     {
 
         ///<summary>
@@ -1599,7 +1647,10 @@ namespace AW_ProductionDAL
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
             Production_ProductModelProductDescriptionCultures = new System.Collections.Generic.List<Production_ProductModelProductDescriptionCultureEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ProductDocument
@@ -1608,7 +1659,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ProductDocument", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductDocumentEntity
+    public partial class Production_ProductDocumentEntity
     {
 
         ///<summary>
@@ -1657,7 +1708,10 @@ namespace AW_ProductionDAL
         public Production_ProductDocumentEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ProductInventory
@@ -1666,7 +1720,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ProductInventory", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductInventoryEntity
+    public partial class Production_ProductInventoryEntity
     {
 
         ///<summary>
@@ -1751,7 +1805,10 @@ namespace AW_ProductionDAL
             Quantity = 0;
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ProductListPriceHistory
@@ -1760,7 +1817,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ProductListPriceHistory", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductListPriceHistoryEntity
+    public partial class Production_ProductListPriceHistoryEntity
     {
 
         ///<summary>
@@ -1822,7 +1879,10 @@ namespace AW_ProductionDAL
         public Production_ProductListPriceHistoryEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ProductModel
@@ -1831,7 +1891,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ProductModel", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductModelEntity
+    public partial class Production_ProductModelEntity
     {
 
         ///<summary>
@@ -1910,7 +1970,10 @@ namespace AW_ProductionDAL
             Production_Products = new System.Collections.Generic.List<Production_ProductEntity>();
             Production_ProductModelIllustrations = new System.Collections.Generic.List<Production_ProductModelIllustrationEntity>();
             Production_ProductModelProductDescriptionCultures = new System.Collections.Generic.List<Production_ProductModelProductDescriptionCultureEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ProductModelIllustration
@@ -1919,7 +1982,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ProductModelIllustration", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductModelIllustrationEntity
+    public partial class Production_ProductModelIllustrationEntity
     {
 
         ///<summary>
@@ -1968,7 +2031,10 @@ namespace AW_ProductionDAL
         public Production_ProductModelIllustrationEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ProductModelProductDescriptionCulture
@@ -1977,7 +2043,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ProductModelProductDescriptionCulture", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductModelProductDescriptionCultureEntity
+    public partial class Production_ProductModelProductDescriptionCultureEntity
     {
 
         ///<summary>
@@ -2044,7 +2110,10 @@ namespace AW_ProductionDAL
         public Production_ProductModelProductDescriptionCultureEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ProductPhoto
@@ -2053,7 +2122,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ProductPhoto", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductPhotoEntity
+    public partial class Production_ProductPhotoEntity
     {
 
         ///<summary>
@@ -2119,7 +2188,10 @@ namespace AW_ProductionDAL
         {
             ModifiedDate = System.DateTime.Now;
             Production_ProductProductPhotoes = new System.Collections.Generic.List<Production_ProductProductPhotoEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ProductProductPhoto
@@ -2128,7 +2200,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ProductProductPhoto", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductProductPhotoEntity
+    public partial class Production_ProductProductPhotoEntity
     {
 
         ///<summary>
@@ -2186,7 +2258,10 @@ namespace AW_ProductionDAL
         {
             Primary = false;
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ProductReview
@@ -2195,7 +2270,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ProductReview", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductReviewEntity
+    public partial class Production_ProductReviewEntity
     {
 
         ///<summary>
@@ -2286,7 +2361,10 @@ namespace AW_ProductionDAL
         {
             ReviewDate = System.DateTime.Now;
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ProductSubcategory
@@ -2295,7 +2373,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ProductSubcategory", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductSubcategoryEntity
+    public partial class Production_ProductSubcategoryEntity
     {
 
         ///<summary>
@@ -2365,7 +2443,10 @@ namespace AW_ProductionDAL
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
             Production_Products = new System.Collections.Generic.List<Production_ProductEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ScrapReason
@@ -2374,7 +2455,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("ScrapReason", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ScrapReasonEntity
+    public partial class Production_ScrapReasonEntity
     {
 
         ///<summary>
@@ -2419,7 +2500,10 @@ namespace AW_ProductionDAL
         {
             ModifiedDate = System.DateTime.Now;
             Production_WorkOrders = new System.Collections.Generic.List<Production_WorkOrderEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // TransactionHistory
@@ -2428,7 +2512,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("TransactionHistory", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_TransactionHistoryEntity
+    public partial class Production_TransactionHistoryEntity
     {
 
         ///<summary>
@@ -2526,7 +2610,10 @@ namespace AW_ProductionDAL
             ReferenceOrderLineId = 0;
             TransactionDate = System.DateTime.Now;
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // TransactionHistoryArchive
@@ -2535,7 +2622,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("TransactionHistoryArchive", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_TransactionHistoryArchiveEntity
+    public partial class Production_TransactionHistoryArchiveEntity
     {
 
         ///<summary>
@@ -2626,7 +2713,10 @@ namespace AW_ProductionDAL
             ReferenceOrderLineId = 0;
             TransactionDate = System.DateTime.Now;
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // UnitMeasure
@@ -2635,7 +2725,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("UnitMeasure", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_UnitMeasureEntity
+    public partial class Production_UnitMeasureEntity
     {
 
         ///<summary>
@@ -2692,13 +2782,16 @@ namespace AW_ProductionDAL
             Production_BillOfMaterials = new System.Collections.Generic.List<Production_BillOfMaterialEntity>();
             Production_Products_SizeUnitMeasureCode = new System.Collections.Generic.List<Production_ProductEntity>();
             Production_Products_WeightUnitMeasureCode = new System.Collections.Generic.List<Production_ProductEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // vProductAndDescription
     [Table("vProductAndDescription", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_VProductAndDescriptionEntity
+    public partial class Production_VProductAndDescriptionEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"ProductID", Order = 1, TypeName = "int")]
@@ -2742,12 +2835,19 @@ namespace AW_ProductionDAL
         [Key]
         [Display(Name = "Description")]
         public string Description { get; set; } // Description (Primary key) (length: 400)
+
+        public Production_VProductAndDescriptionEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vProductModelCatalogDescription
     [Table("vProductModelCatalogDescription", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_VProductModelCatalogDescriptionEntity
+    public partial class Production_VProductModelCatalogDescriptionEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(@"ProductModelID", Order = 1, TypeName = "int")]
@@ -2899,12 +2999,19 @@ namespace AW_ProductionDAL
         [DataType(DataType.DateTime)]
         [Display(Name = "Modified date")]
         public System.DateTime ModifiedDate { get; set; } // ModifiedDate (Primary key)
+
+        public Production_VProductModelCatalogDescriptionEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vProductModelInstructions
     [Table("vProductModelInstructions", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_VProductModelInstructionEntity
+    public partial class Production_VProductModelInstructionEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(@"ProductModelID", Order = 1, TypeName = "int")]
@@ -2966,6 +3073,13 @@ namespace AW_ProductionDAL
         [DataType(DataType.DateTime)]
         [Display(Name = "Modified date")]
         public System.DateTime ModifiedDate { get; set; } // ModifiedDate (Primary key)
+
+        public Production_VProductModelInstructionEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // WorkOrder
@@ -2974,7 +3088,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("WorkOrder", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_WorkOrderEntity
+    public partial class Production_WorkOrderEntity
     {
 
         ///<summary>
@@ -3087,7 +3201,10 @@ namespace AW_ProductionDAL
         {
             ModifiedDate = System.DateTime.Now;
             Production_WorkOrderRoutings = new System.Collections.Generic.List<Production_WorkOrderRoutingEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // WorkOrderRouting
@@ -3096,7 +3213,7 @@ namespace AW_ProductionDAL
     ///</summary>
     [Table("WorkOrderRouting", Schema = "Production")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_WorkOrderRoutingEntity
+    public partial class Production_WorkOrderRoutingEntity
     {
 
         ///<summary>
@@ -3223,7 +3340,10 @@ namespace AW_ProductionDAL
         public Production_WorkOrderRoutingEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     #endregion
@@ -3232,7 +3352,7 @@ namespace AW_ProductionDAL
 
     // BillOfMaterials
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_BillOfMaterialEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_BillOfMaterialEntity>
+    public partial class Production_BillOfMaterialEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_BillOfMaterialEntity>
     {
         public Production_BillOfMaterialEntityMapping()
             : this("Production")
@@ -3246,12 +3366,14 @@ namespace AW_ProductionDAL
             Property(x => x.UnitMeasureCode).IsFixedLength();
             Property(x => x.PerAssemblyQty).HasPrecision(8,2);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // Culture
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_CultureEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_CultureEntity>
+    public partial class Production_CultureEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_CultureEntity>
     {
         public Production_CultureEntityMapping()
             : this("Production")
@@ -3261,12 +3383,14 @@ namespace AW_ProductionDAL
         public Production_CultureEntityMapping(string schema)
         {
             Property(x => x.CultureId).IsFixedLength();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // Document
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_DocumentEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_DocumentEntity>
+    public partial class Production_DocumentEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_DocumentEntity>
     {
         public Production_DocumentEntityMapping()
             : this("Production")
@@ -3279,12 +3403,14 @@ namespace AW_ProductionDAL
             Property(x => x.Revision).IsFixedLength();
             Property(x => x.DocumentSummary).IsOptional();
             Property(x => x.Document).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // Illustration
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_IllustrationEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_IllustrationEntity>
+    public partial class Production_IllustrationEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_IllustrationEntity>
     {
         public Production_IllustrationEntityMapping()
             : this("Production")
@@ -3294,12 +3420,14 @@ namespace AW_ProductionDAL
         public Production_IllustrationEntityMapping(string schema)
         {
             Property(x => x.Diagram).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // Location
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_LocationEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_LocationEntity>
+    public partial class Production_LocationEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_LocationEntity>
     {
         public Production_LocationEntityMapping()
             : this("Production")
@@ -3310,12 +3438,14 @@ namespace AW_ProductionDAL
         {
             Property(x => x.CostRate).HasPrecision(10,4);
             Property(x => x.Availability).HasPrecision(8,2);
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // Product
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductEntity>
+    public partial class Production_ProductEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductEntity>
     {
         public Production_ProductEntityMapping()
             : this("Production")
@@ -3339,12 +3469,14 @@ namespace AW_ProductionDAL
             Property(x => x.SellEndDate).IsOptional();
             Property(x => x.DiscontinuedDate).IsOptional();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ProductCategory
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductCategoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductCategoryEntity>
+    public partial class Production_ProductCategoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductCategoryEntity>
     {
         public Production_ProductCategoryEntityMapping()
             : this("Production")
@@ -3353,12 +3485,14 @@ namespace AW_ProductionDAL
 
         public Production_ProductCategoryEntityMapping(string schema)
         {
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ProductCostHistory
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductCostHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductCostHistoryEntity>
+    public partial class Production_ProductCostHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductCostHistoryEntity>
     {
         public Production_ProductCostHistoryEntityMapping()
             : this("Production")
@@ -3370,12 +3504,14 @@ namespace AW_ProductionDAL
             Property(x => x.EndDate).IsOptional();
             Property(x => x.StandardCost).HasPrecision(19,4);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ProductDescription
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductDescriptionEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductDescriptionEntity>
+    public partial class Production_ProductDescriptionEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductDescriptionEntity>
     {
         public Production_ProductDescriptionEntityMapping()
             : this("Production")
@@ -3384,12 +3520,14 @@ namespace AW_ProductionDAL
 
         public Production_ProductDescriptionEntityMapping(string schema)
         {
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ProductDocument
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductDocumentEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductDocumentEntity>
+    public partial class Production_ProductDocumentEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductDocumentEntity>
     {
         public Production_ProductDocumentEntityMapping()
             : this("Production")
@@ -3399,12 +3537,14 @@ namespace AW_ProductionDAL
         public Production_ProductDocumentEntityMapping(string schema)
         {
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ProductInventory
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductInventoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductInventoryEntity>
+    public partial class Production_ProductInventoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductInventoryEntity>
     {
         public Production_ProductInventoryEntityMapping()
             : this("Production")
@@ -3414,12 +3554,14 @@ namespace AW_ProductionDAL
         public Production_ProductInventoryEntityMapping(string schema)
         {
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ProductListPriceHistory
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductListPriceHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductListPriceHistoryEntity>
+    public partial class Production_ProductListPriceHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductListPriceHistoryEntity>
     {
         public Production_ProductListPriceHistoryEntityMapping()
             : this("Production")
@@ -3431,12 +3573,14 @@ namespace AW_ProductionDAL
             Property(x => x.EndDate).IsOptional();
             Property(x => x.ListPrice).HasPrecision(19,4);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ProductModel
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductModelEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductModelEntity>
+    public partial class Production_ProductModelEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductModelEntity>
     {
         public Production_ProductModelEntityMapping()
             : this("Production")
@@ -3447,12 +3591,14 @@ namespace AW_ProductionDAL
         {
             Property(x => x.CatalogDescription).IsOptional();
             Property(x => x.Instructions).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ProductModelIllustration
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductModelIllustrationEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductModelIllustrationEntity>
+    public partial class Production_ProductModelIllustrationEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductModelIllustrationEntity>
     {
         public Production_ProductModelIllustrationEntityMapping()
             : this("Production")
@@ -3462,12 +3608,14 @@ namespace AW_ProductionDAL
         public Production_ProductModelIllustrationEntityMapping(string schema)
         {
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ProductModelProductDescriptionCulture
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductModelProductDescriptionCultureEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductModelProductDescriptionCultureEntity>
+    public partial class Production_ProductModelProductDescriptionCultureEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductModelProductDescriptionCultureEntity>
     {
         public Production_ProductModelProductDescriptionCultureEntityMapping()
             : this("Production")
@@ -3478,12 +3626,14 @@ namespace AW_ProductionDAL
         {
             Property(x => x.CultureId).IsFixedLength();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ProductPhoto
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductPhotoEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductPhotoEntity>
+    public partial class Production_ProductPhotoEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductPhotoEntity>
     {
         public Production_ProductPhotoEntityMapping()
             : this("Production")
@@ -3496,12 +3646,14 @@ namespace AW_ProductionDAL
             Property(x => x.ThumbnailPhotoFileName).IsOptional();
             Property(x => x.LargePhoto).IsOptional();
             Property(x => x.LargePhotoFileName).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ProductProductPhoto
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductProductPhotoEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductProductPhotoEntity>
+    public partial class Production_ProductProductPhotoEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductProductPhotoEntity>
     {
         public Production_ProductProductPhotoEntityMapping()
             : this("Production")
@@ -3511,12 +3663,14 @@ namespace AW_ProductionDAL
         public Production_ProductProductPhotoEntityMapping(string schema)
         {
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ProductReview
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductReviewEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductReviewEntity>
+    public partial class Production_ProductReviewEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductReviewEntity>
     {
         public Production_ProductReviewEntityMapping()
             : this("Production")
@@ -3527,12 +3681,14 @@ namespace AW_ProductionDAL
         {
             Property(x => x.Comments).IsOptional();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ProductSubcategory
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ProductSubcategoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductSubcategoryEntity>
+    public partial class Production_ProductSubcategoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ProductSubcategoryEntity>
     {
         public Production_ProductSubcategoryEntityMapping()
             : this("Production")
@@ -3542,12 +3698,14 @@ namespace AW_ProductionDAL
         public Production_ProductSubcategoryEntityMapping(string schema)
         {
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ScrapReason
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_ScrapReasonEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ScrapReasonEntity>
+    public partial class Production_ScrapReasonEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_ScrapReasonEntity>
     {
         public Production_ScrapReasonEntityMapping()
             : this("Production")
@@ -3556,12 +3714,14 @@ namespace AW_ProductionDAL
 
         public Production_ScrapReasonEntityMapping(string schema)
         {
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // TransactionHistory
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_TransactionHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_TransactionHistoryEntity>
+    public partial class Production_TransactionHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_TransactionHistoryEntity>
     {
         public Production_TransactionHistoryEntityMapping()
             : this("Production")
@@ -3573,12 +3733,14 @@ namespace AW_ProductionDAL
             Property(x => x.TransactionType).IsFixedLength();
             Property(x => x.ActualCost).HasPrecision(19,4);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // TransactionHistoryArchive
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_TransactionHistoryArchiveEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_TransactionHistoryArchiveEntity>
+    public partial class Production_TransactionHistoryArchiveEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_TransactionHistoryArchiveEntity>
     {
         public Production_TransactionHistoryArchiveEntityMapping()
             : this("Production")
@@ -3589,12 +3751,14 @@ namespace AW_ProductionDAL
         {
             Property(x => x.TransactionType).IsFixedLength();
             Property(x => x.ActualCost).HasPrecision(19,4);
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // UnitMeasure
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_UnitMeasureEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_UnitMeasureEntity>
+    public partial class Production_UnitMeasureEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_UnitMeasureEntity>
     {
         public Production_UnitMeasureEntityMapping()
             : this("Production")
@@ -3604,12 +3768,14 @@ namespace AW_ProductionDAL
         public Production_UnitMeasureEntityMapping(string schema)
         {
             Property(x => x.UnitMeasureCode).IsFixedLength();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vProductAndDescription
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_VProductAndDescriptionEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_VProductAndDescriptionEntity>
+    public partial class Production_VProductAndDescriptionEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_VProductAndDescriptionEntity>
     {
         public Production_VProductAndDescriptionEntityMapping()
             : this("Production")
@@ -3619,12 +3785,14 @@ namespace AW_ProductionDAL
         public Production_VProductAndDescriptionEntityMapping(string schema)
         {
             Property(x => x.CultureId).IsFixedLength();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vProductModelCatalogDescription
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_VProductModelCatalogDescriptionEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_VProductModelCatalogDescriptionEntity>
+    public partial class Production_VProductModelCatalogDescriptionEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_VProductModelCatalogDescriptionEntity>
     {
         public Production_VProductModelCatalogDescriptionEntityMapping()
             : this("Production")
@@ -3654,12 +3822,14 @@ namespace AW_ProductionDAL
             Property(x => x.ProductLine).IsOptional();
             Property(x => x.Style).IsOptional();
             Property(x => x.RiderExperience).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vProductModelInstructions
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_VProductModelInstructionEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_VProductModelInstructionEntity>
+    public partial class Production_VProductModelInstructionEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_VProductModelInstructionEntity>
     {
         public Production_VProductModelInstructionEntityMapping()
             : this("Production")
@@ -3675,12 +3845,14 @@ namespace AW_ProductionDAL
             Property(x => x.LaborHours).IsOptional().HasPrecision(9,4);
             Property(x => x.LotSize).IsOptional();
             Property(x => x.Step).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // WorkOrder
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_WorkOrderEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_WorkOrderEntity>
+    public partial class Production_WorkOrderEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_WorkOrderEntity>
     {
         public Production_WorkOrderEntityMapping()
             : this("Production")
@@ -3692,12 +3864,14 @@ namespace AW_ProductionDAL
             Property(x => x.EndDate).IsOptional();
             Property(x => x.ScrapReasonId).IsOptional();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // WorkOrderRouting
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Production_WorkOrderRoutingEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_WorkOrderRoutingEntity>
+    public partial class Production_WorkOrderRoutingEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Production_WorkOrderRoutingEntity>
     {
         public Production_WorkOrderRoutingEntityMapping()
             : this("Production")
@@ -3712,7 +3886,9 @@ namespace AW_ProductionDAL
             Property(x => x.PlannedCost).HasPrecision(19,4);
             Property(x => x.ActualCost).IsOptional().HasPrecision(19,4);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     #endregion

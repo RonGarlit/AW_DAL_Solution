@@ -55,6 +55,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AWHRDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="HumanResources_EmployeeEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

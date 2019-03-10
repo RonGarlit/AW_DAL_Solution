@@ -21,7 +21,18 @@ AW_SharedViewsSProcsDAL = AWSharedDB  =  AW2016_SharedDB  = SharedDBContext
     Settings.PrependSchemaName = true;   // Control if the schema name is prepended to the table name
 
     Settings.TableSuffix = "Entity";
-    
+=========================================================================================
+Change public to public partial
+=========================================================================================	
+	Settings.EntityClassesModifiers        = "public partial"; // "public partial";
+    Settings.ConfigurationClassesModifiers = "public partial"; // "public partial";
+    Settings.DbContextClassModifiers       = "public partial"; // "public partial";
+    Settings.DbContextInterfaceModifiers   = "public partial"; // "public partial";
+    Settings.MigrationClassModifiers       = "internal sealed";
+    Settings.ResultClassModifiers          = "public partial"; // "public partial";
+=========================================================================================  
+
+=========================================================================================  
     Settings.SchemaFilterExclude = null;
     Settings.SchemaFilterInclude = new Regex(".*HumanResources.*");
 	Settings.SchemaFilterInclude = new Regex(".*Person.*");

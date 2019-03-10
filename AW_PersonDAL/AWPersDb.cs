@@ -37,7 +37,7 @@ namespace AW_PersonDAL
 
     #region Unit of work
 
-    public interface IPersDbContext : System.IDisposable
+    public partial interface IPersDbContext : System.IDisposable
     {
         System.Data.Entity.DbSet<Person_AddressEntity> Person_Addresses { get; set; } // Address
         System.Data.Entity.DbSet<Person_AddressTypeEntity> Person_AddressTypes { get; set; } // AddressType
@@ -74,7 +74,7 @@ namespace AW_PersonDAL
     #region Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class PersDbContext : System.Data.Entity.DbContext, IPersDbContext
+    public partial class PersDbContext : System.Data.Entity.DbContext, IPersDbContext
     {
         public System.Data.Entity.DbSet<Person_AddressEntity> Person_Addresses { get; set; } // Address
         public System.Data.Entity.DbSet<Person_AddressTypeEntity> Person_AddressTypes { get; set; } // AddressType
@@ -100,30 +100,36 @@ namespace AW_PersonDAL
         public PersDbContext()
             : base("Name=AW2016_PersDb")
         {
+            InitializePartial();
         }
 
         public PersDbContext(string connectionString)
             : base(connectionString)
         {
+            InitializePartial();
         }
 
         public PersDbContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model)
             : base(connectionString, model)
         {
+            InitializePartial();
         }
 
         public PersDbContext(System.Data.Common.DbConnection existingConnection, bool contextOwnsConnection)
             : base(existingConnection, contextOwnsConnection)
         {
+            InitializePartial();
         }
 
         public PersDbContext(System.Data.Common.DbConnection existingConnection, System.Data.Entity.Infrastructure.DbCompiledModel model, bool contextOwnsConnection)
             : base(existingConnection, model, contextOwnsConnection)
         {
+            InitializePartial();
         }
 
         protected override void Dispose(bool disposing)
         {
+            DisposePartial(disposing);
             base.Dispose(disposing);
         }
 
@@ -155,6 +161,8 @@ namespace AW_PersonDAL
             modelBuilder.Configurations.Add(new Person_StateProvinceEntityMapping());
             modelBuilder.Configurations.Add(new Person_VAdditionalContactInfoEntityMapping());
             modelBuilder.Configurations.Add(new Person_VStateProvinceCountryRegionEntityMapping());
+
+            OnModelCreatingPartial(modelBuilder);
         }
 
         public static System.Data.Entity.DbModelBuilder CreateModel(System.Data.Entity.DbModelBuilder modelBuilder, string schema)
@@ -174,14 +182,20 @@ namespace AW_PersonDAL
             modelBuilder.Configurations.Add(new Person_StateProvinceEntityMapping(schema));
             modelBuilder.Configurations.Add(new Person_VAdditionalContactInfoEntityMapping(schema));
             modelBuilder.Configurations.Add(new Person_VStateProvinceCountryRegionEntityMapping(schema));
+            OnCreateModelPartial(modelBuilder, schema);
             return modelBuilder;
         }
+
+        partial void InitializePartial();
+        partial void DisposePartial(bool disposing);
+        partial void OnModelCreatingPartial(System.Data.Entity.DbModelBuilder modelBuilder);
+		static partial void OnCreateModelPartial(System.Data.Entity.DbModelBuilder modelBuilder, string schema);        
     }
     #endregion
 
     #region Database context factory
 
-    public class PersDbContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<PersDbContext>
+    public partial class PersDbContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<PersDbContext>
     {
         public PersDbContext Create()
         {
@@ -194,7 +208,7 @@ namespace AW_PersonDAL
     #region Fake Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakePersDbContext : IPersDbContext
+    public partial class FakePersDbContext : IPersDbContext
     {
         public System.Data.Entity.DbSet<Person_AddressEntity> Person_Addresses { get; set; }
         public System.Data.Entity.DbSet<Person_AddressTypeEntity> Person_AddressTypes { get; set; }
@@ -233,6 +247,8 @@ namespace AW_PersonDAL
             Person_StateProvinces = new FakeDbSet<Person_StateProvinceEntity>("StateProvinceId");
             Person_VAdditionalContactInfoes = new FakeDbSet<Person_VAdditionalContactInfoEntity>("BusinessEntityId", "FirstName", "LastName", "Rowguid", "ModifiedDate");
             Person_VStateProvinceCountryRegions = new FakeDbSet<Person_VStateProvinceCountryRegionEntity>("StateProvinceId", "StateProvinceCode", "IsOnlyStateProvinceFlag", "StateProvinceName", "TerritoryId", "CountryRegionCode", "CountryRegionName");
+
+            InitializePartial();
         }
 
         public int SaveChangesCount { get; private set; }
@@ -253,6 +269,8 @@ namespace AW_PersonDAL
             ++SaveChangesCount;
             return System.Threading.Tasks.Task<int>.Factory.StartNew(() => 1, cancellationToken);
         }
+
+        partial void InitializePartial();
 
         protected virtual void Dispose(bool disposing)
         {
@@ -314,7 +332,7 @@ namespace AW_PersonDAL
     //      }
     //      Read more about it here: https://msdn.microsoft.com/en-us/data/dn314431.aspx
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbSet<TEntity> : System.Data.Entity.DbSet<TEntity>, IQueryable, System.Collections.Generic.IEnumerable<TEntity>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<TEntity> where TEntity : class
+    public partial class FakeDbSet<TEntity> : System.Data.Entity.DbSet<TEntity>, IQueryable, System.Collections.Generic.IEnumerable<TEntity>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<TEntity> where TEntity : class
     {
         private readonly System.Reflection.PropertyInfo[] _primaryKeys;
         private readonly System.Collections.ObjectModel.ObservableCollection<TEntity> _data;
@@ -324,6 +342,8 @@ namespace AW_PersonDAL
         {
             _data = new System.Collections.ObjectModel.ObservableCollection<TEntity>();
             _query = _data.AsQueryable();
+
+            InitializePartial();
         }
 
         public FakeDbSet(params string[] primaryKeys)
@@ -331,6 +351,8 @@ namespace AW_PersonDAL
             _primaryKeys = typeof(TEntity).GetProperties().Where(x => primaryKeys.Contains(x.Name)).ToArray();
             _data = new System.Collections.ObjectModel.ObservableCollection<TEntity>();
             _query = _data.AsQueryable();
+
+            InitializePartial();
         }
 
         public override TEntity Find(params object[] keyValues)
@@ -447,10 +469,12 @@ namespace AW_PersonDAL
         {
             return new FakeDbAsyncEnumerator<TEntity>(_data.GetEnumerator());
         }
+
+        partial void InitializePartial();
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncQueryProvider<TEntity> : System.Data.Entity.Infrastructure.IDbAsyncQueryProvider
+    public partial class FakeDbAsyncQueryProvider<TEntity> : System.Data.Entity.Infrastructure.IDbAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
 
@@ -500,7 +524,7 @@ namespace AW_PersonDAL
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncEnumerable<T> : EnumerableQuery<T>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<T>, IQueryable<T>
+    public partial class FakeDbAsyncEnumerable<T> : EnumerableQuery<T>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<T>, IQueryable<T>
     {
         public FakeDbAsyncEnumerable(System.Collections.Generic.IEnumerable<T> enumerable)
             : base(enumerable)
@@ -527,7 +551,7 @@ namespace AW_PersonDAL
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncEnumerator<T> : System.Data.Entity.Infrastructure.IDbAsyncEnumerator<T>
+    public partial class FakeDbAsyncEnumerator<T> : System.Data.Entity.Infrastructure.IDbAsyncEnumerator<T>
     {
         private readonly System.Collections.Generic.IEnumerator<T> _inner;
 
@@ -567,7 +591,7 @@ namespace AW_PersonDAL
     ///</summary>
     [Table("Address", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_AddressEntity
+    public partial class Person_AddressEntity
     {
 
         ///<summary>
@@ -679,7 +703,10 @@ namespace AW_PersonDAL
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
             Person_BusinessEntityAddresses = new System.Collections.Generic.List<Person_BusinessEntityAddressEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // AddressType
@@ -688,7 +715,7 @@ namespace AW_PersonDAL
     ///</summary>
     [Table("AddressType", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_AddressTypeEntity
+    public partial class Person_AddressTypeEntity
     {
 
         ///<summary>
@@ -743,7 +770,10 @@ namespace AW_PersonDAL
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
             Person_BusinessEntityAddresses = new System.Collections.Generic.List<Person_BusinessEntityAddressEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // BusinessEntity
@@ -752,7 +782,7 @@ namespace AW_PersonDAL
     ///</summary>
     [Table("BusinessEntity", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_BusinessEntityEntity
+    public partial class Person_BusinessEntityEntity
     {
 
         ///<summary>
@@ -805,7 +835,10 @@ namespace AW_PersonDAL
             ModifiedDate = System.DateTime.Now;
             Person_BusinessEntityAddresses = new System.Collections.Generic.List<Person_BusinessEntityAddressEntity>();
             Person_BusinessEntityContacts = new System.Collections.Generic.List<Person_BusinessEntityContactEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // BusinessEntityAddress
@@ -814,7 +847,7 @@ namespace AW_PersonDAL
     ///</summary>
     [Table("BusinessEntityAddress", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_BusinessEntityAddressEntity
+    public partial class Person_BusinessEntityAddressEntity
     {
 
         ///<summary>
@@ -891,7 +924,10 @@ namespace AW_PersonDAL
         {
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // BusinessEntityContact
@@ -900,7 +936,7 @@ namespace AW_PersonDAL
     ///</summary>
     [Table("BusinessEntityContact", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_BusinessEntityContactEntity
+    public partial class Person_BusinessEntityContactEntity
     {
 
         ///<summary>
@@ -977,7 +1013,10 @@ namespace AW_PersonDAL
         {
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ContactType
@@ -986,7 +1025,7 @@ namespace AW_PersonDAL
     ///</summary>
     [Table("ContactType", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_ContactTypeEntity
+    public partial class Person_ContactTypeEntity
     {
 
         ///<summary>
@@ -1031,7 +1070,10 @@ namespace AW_PersonDAL
         {
             ModifiedDate = System.DateTime.Now;
             Person_BusinessEntityContacts = new System.Collections.Generic.List<Person_BusinessEntityContactEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // CountryRegion
@@ -1040,7 +1082,7 @@ namespace AW_PersonDAL
     ///</summary>
     [Table("CountryRegion", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_CountryRegionEntity
+    public partial class Person_CountryRegionEntity
     {
 
         ///<summary>
@@ -1087,7 +1129,10 @@ namespace AW_PersonDAL
         {
             ModifiedDate = System.DateTime.Now;
             Person_StateProvinces = new System.Collections.Generic.List<Person_StateProvinceEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // EmailAddress
@@ -1096,7 +1141,7 @@ namespace AW_PersonDAL
     ///</summary>
     [Table("EmailAddress", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_EmailAddressEntity
+    public partial class Person_EmailAddressEntity
     {
 
         ///<summary>
@@ -1160,7 +1205,10 @@ namespace AW_PersonDAL
         {
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // Password
@@ -1169,7 +1217,7 @@ namespace AW_PersonDAL
     ///</summary>
     [Table("Password", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_PasswordEntity
+    public partial class Person_PasswordEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"BusinessEntityID", Order = 1, TypeName = "int")]
@@ -1228,7 +1276,10 @@ namespace AW_PersonDAL
         {
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // Person
@@ -1237,7 +1288,7 @@ namespace AW_PersonDAL
     ///</summary>
     [Table("Person", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_PersonEntity
+    public partial class Person_PersonEntity
     {
 
         ///<summary>
@@ -1395,7 +1446,10 @@ namespace AW_PersonDAL
             Person_BusinessEntityContacts = new System.Collections.Generic.List<Person_BusinessEntityContactEntity>();
             Person_EmailAddresses = new System.Collections.Generic.List<Person_EmailAddressEntity>();
             Person_PersonPhones = new System.Collections.Generic.List<Person_PersonPhoneEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // PersonPhone
@@ -1404,7 +1458,7 @@ namespace AW_PersonDAL
     ///</summary>
     [Table("PersonPhone", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_PersonPhoneEntity
+    public partial class Person_PersonPhoneEntity
     {
 
         ///<summary>
@@ -1468,7 +1522,10 @@ namespace AW_PersonDAL
         public Person_PersonPhoneEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // PhoneNumberType
@@ -1477,7 +1534,7 @@ namespace AW_PersonDAL
     ///</summary>
     [Table("PhoneNumberType", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_PhoneNumberTypeEntity
+    public partial class Person_PhoneNumberTypeEntity
     {
 
         ///<summary>
@@ -1521,7 +1578,10 @@ namespace AW_PersonDAL
         {
             ModifiedDate = System.DateTime.Now;
             Person_PersonPhones = new System.Collections.Generic.List<Person_PersonPhoneEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // StateProvince
@@ -1530,7 +1590,7 @@ namespace AW_PersonDAL
     ///</summary>
     [Table("StateProvince", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_StateProvinceEntity
+    public partial class Person_StateProvinceEntity
     {
 
         ///<summary>
@@ -1631,13 +1691,16 @@ namespace AW_PersonDAL
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
             Person_Addresses = new System.Collections.Generic.List<Person_AddressEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // vAdditionalContactInfo
     [Table("vAdditionalContactInfo", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_VAdditionalContactInfoEntity
+    public partial class Person_VAdditionalContactInfoEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"BusinessEntityID", Order = 1, TypeName = "int")]
@@ -1747,12 +1810,19 @@ namespace AW_PersonDAL
         [DataType(DataType.DateTime)]
         [Display(Name = "Modified date")]
         public System.DateTime ModifiedDate { get; set; } // ModifiedDate (Primary key)
+
+        public Person_VAdditionalContactInfoEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vStateProvinceCountryRegion
     [Table("vStateProvinceCountryRegion", Schema = "Person")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_VStateProvinceCountryRegionEntity
+    public partial class Person_VStateProvinceCountryRegionEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"StateProvinceID", Order = 1, TypeName = "int")]
@@ -1810,6 +1880,13 @@ namespace AW_PersonDAL
         [Key]
         [Display(Name = "Country region name")]
         public string CountryRegionName { get; set; } // CountryRegionName (Primary key) (length: 50)
+
+        public Person_VStateProvinceCountryRegionEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     #endregion
@@ -1818,7 +1895,7 @@ namespace AW_PersonDAL
 
     // Address
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_AddressEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_AddressEntity>
+    public partial class Person_AddressEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_AddressEntity>
     {
         public Person_AddressEntityMapping()
             : this("Person")
@@ -1830,12 +1907,14 @@ namespace AW_PersonDAL
             Property(x => x.AddressLine2).IsOptional();
             Property(x => x.SpatialLocation).IsOptional();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // AddressType
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_AddressTypeEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_AddressTypeEntity>
+    public partial class Person_AddressTypeEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_AddressTypeEntity>
     {
         public Person_AddressTypeEntityMapping()
             : this("Person")
@@ -1844,12 +1923,14 @@ namespace AW_PersonDAL
 
         public Person_AddressTypeEntityMapping(string schema)
         {
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // BusinessEntity
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_BusinessEntityEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_BusinessEntityEntity>
+    public partial class Person_BusinessEntityEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_BusinessEntityEntity>
     {
         public Person_BusinessEntityEntityMapping()
             : this("Person")
@@ -1858,12 +1939,14 @@ namespace AW_PersonDAL
 
         public Person_BusinessEntityEntityMapping(string schema)
         {
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // BusinessEntityAddress
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_BusinessEntityAddressEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_BusinessEntityAddressEntity>
+    public partial class Person_BusinessEntityAddressEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_BusinessEntityAddressEntity>
     {
         public Person_BusinessEntityAddressEntityMapping()
             : this("Person")
@@ -1873,12 +1956,14 @@ namespace AW_PersonDAL
         public Person_BusinessEntityAddressEntityMapping(string schema)
         {
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // BusinessEntityContact
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_BusinessEntityContactEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_BusinessEntityContactEntity>
+    public partial class Person_BusinessEntityContactEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_BusinessEntityContactEntity>
     {
         public Person_BusinessEntityContactEntityMapping()
             : this("Person")
@@ -1888,12 +1973,14 @@ namespace AW_PersonDAL
         public Person_BusinessEntityContactEntityMapping(string schema)
         {
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ContactType
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_ContactTypeEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_ContactTypeEntity>
+    public partial class Person_ContactTypeEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_ContactTypeEntity>
     {
         public Person_ContactTypeEntityMapping()
             : this("Person")
@@ -1902,12 +1989,14 @@ namespace AW_PersonDAL
 
         public Person_ContactTypeEntityMapping(string schema)
         {
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // CountryRegion
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_CountryRegionEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_CountryRegionEntity>
+    public partial class Person_CountryRegionEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_CountryRegionEntity>
     {
         public Person_CountryRegionEntityMapping()
             : this("Person")
@@ -1916,12 +2005,14 @@ namespace AW_PersonDAL
 
         public Person_CountryRegionEntityMapping(string schema)
         {
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // EmailAddress
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_EmailAddressEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_EmailAddressEntity>
+    public partial class Person_EmailAddressEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_EmailAddressEntity>
     {
         public Person_EmailAddressEntityMapping()
             : this("Person")
@@ -1932,12 +2023,14 @@ namespace AW_PersonDAL
         {
             Property(x => x.EmailAddress).IsOptional();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // Password
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_PasswordEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_PasswordEntity>
+    public partial class Person_PasswordEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_PasswordEntity>
     {
         public Person_PasswordEntityMapping()
             : this("Person")
@@ -1949,12 +2042,14 @@ namespace AW_PersonDAL
             Property(x => x.PasswordHash).IsUnicode(false);
             Property(x => x.PasswordSalt).IsUnicode(false);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // Person
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_PersonEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_PersonEntity>
+    public partial class Person_PersonEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_PersonEntity>
     {
         public Person_PersonEntityMapping()
             : this("Person")
@@ -1970,12 +2065,14 @@ namespace AW_PersonDAL
             Property(x => x.AdditionalContactInfo).IsOptional();
             Property(x => x.Demographics).IsOptional();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // PersonPhone
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_PersonPhoneEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_PersonPhoneEntity>
+    public partial class Person_PersonPhoneEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_PersonPhoneEntity>
     {
         public Person_PersonPhoneEntityMapping()
             : this("Person")
@@ -1985,12 +2082,14 @@ namespace AW_PersonDAL
         public Person_PersonPhoneEntityMapping(string schema)
         {
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // PhoneNumberType
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_PhoneNumberTypeEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_PhoneNumberTypeEntity>
+    public partial class Person_PhoneNumberTypeEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_PhoneNumberTypeEntity>
     {
         public Person_PhoneNumberTypeEntityMapping()
             : this("Person")
@@ -1999,12 +2098,14 @@ namespace AW_PersonDAL
 
         public Person_PhoneNumberTypeEntityMapping(string schema)
         {
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // StateProvince
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_StateProvinceEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_StateProvinceEntity>
+    public partial class Person_StateProvinceEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_StateProvinceEntity>
     {
         public Person_StateProvinceEntityMapping()
             : this("Person")
@@ -2015,12 +2116,14 @@ namespace AW_PersonDAL
         {
             Property(x => x.StateProvinceCode).IsFixedLength();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vAdditionalContactInfo
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_VAdditionalContactInfoEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_VAdditionalContactInfoEntity>
+    public partial class Person_VAdditionalContactInfoEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_VAdditionalContactInfoEntity>
     {
         public Person_VAdditionalContactInfoEntityMapping()
             : this("Person")
@@ -2041,12 +2144,14 @@ namespace AW_PersonDAL
             Property(x => x.EMailAddress).IsOptional();
             Property(x => x.EMailSpecialInstructions).IsOptional();
             Property(x => x.EMailTelephoneNumber).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vStateProvinceCountryRegion
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Person_VStateProvinceCountryRegionEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_VStateProvinceCountryRegionEntity>
+    public partial class Person_VStateProvinceCountryRegionEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Person_VStateProvinceCountryRegionEntity>
     {
         public Person_VStateProvinceCountryRegionEntityMapping()
             : this("Person")
@@ -2056,7 +2161,9 @@ namespace AW_PersonDAL
         public Person_VStateProvinceCountryRegionEntityMapping(string schema)
         {
             Property(x => x.StateProvinceCode).IsFixedLength();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     #endregion

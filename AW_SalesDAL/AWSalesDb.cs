@@ -37,7 +37,7 @@ namespace AW_SalesDAL
 
     #region Unit of work
 
-    public interface ISalesDbContext : System.IDisposable
+    public partial interface ISalesDbContext : System.IDisposable
     {
         System.Data.Entity.DbSet<Sales_CountryRegionCurrencyEntity> Sales_CountryRegionCurrencies { get; set; } // CountryRegionCurrency
         System.Data.Entity.DbSet<Sales_CreditCardEntity> Sales_CreditCards { get; set; } // CreditCard
@@ -85,7 +85,7 @@ namespace AW_SalesDAL
     #region Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class SalesDbContext : System.Data.Entity.DbContext, ISalesDbContext
+    public partial class SalesDbContext : System.Data.Entity.DbContext, ISalesDbContext
     {
         public System.Data.Entity.DbSet<Sales_CountryRegionCurrencyEntity> Sales_CountryRegionCurrencies { get; set; } // CountryRegionCurrency
         public System.Data.Entity.DbSet<Sales_CreditCardEntity> Sales_CreditCards { get; set; } // CreditCard
@@ -122,30 +122,36 @@ namespace AW_SalesDAL
         public SalesDbContext()
             : base("Name=AW2016_SalesDb")
         {
+            InitializePartial();
         }
 
         public SalesDbContext(string connectionString)
             : base(connectionString)
         {
+            InitializePartial();
         }
 
         public SalesDbContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model)
             : base(connectionString, model)
         {
+            InitializePartial();
         }
 
         public SalesDbContext(System.Data.Common.DbConnection existingConnection, bool contextOwnsConnection)
             : base(existingConnection, contextOwnsConnection)
         {
+            InitializePartial();
         }
 
         public SalesDbContext(System.Data.Common.DbConnection existingConnection, System.Data.Entity.Infrastructure.DbCompiledModel model, bool contextOwnsConnection)
             : base(existingConnection, model, contextOwnsConnection)
         {
+            InitializePartial();
         }
 
         protected override void Dispose(bool disposing)
         {
+            DisposePartial(disposing);
             base.Dispose(disposing);
         }
 
@@ -188,6 +194,8 @@ namespace AW_SalesDAL
             modelBuilder.Configurations.Add(new Sales_VStoreWithAddressEntityMapping());
             modelBuilder.Configurations.Add(new Sales_VStoreWithContactEntityMapping());
             modelBuilder.Configurations.Add(new Sales_VStoreWithDemographicEntityMapping());
+
+            OnModelCreatingPartial(modelBuilder);
         }
 
         public static System.Data.Entity.DbModelBuilder CreateModel(System.Data.Entity.DbModelBuilder modelBuilder, string schema)
@@ -218,14 +226,20 @@ namespace AW_SalesDAL
             modelBuilder.Configurations.Add(new Sales_VStoreWithAddressEntityMapping(schema));
             modelBuilder.Configurations.Add(new Sales_VStoreWithContactEntityMapping(schema));
             modelBuilder.Configurations.Add(new Sales_VStoreWithDemographicEntityMapping(schema));
+            OnCreateModelPartial(modelBuilder, schema);
             return modelBuilder;
         }
+
+        partial void InitializePartial();
+        partial void DisposePartial(bool disposing);
+        partial void OnModelCreatingPartial(System.Data.Entity.DbModelBuilder modelBuilder);
+		static partial void OnCreateModelPartial(System.Data.Entity.DbModelBuilder modelBuilder, string schema);        
     }
     #endregion
 
     #region Database context factory
 
-    public class SalesDbContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<SalesDbContext>
+    public partial class SalesDbContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<SalesDbContext>
     {
         public SalesDbContext Create()
         {
@@ -238,7 +252,7 @@ namespace AW_SalesDAL
     #region Fake Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeSalesDbContext : ISalesDbContext
+    public partial class FakeSalesDbContext : ISalesDbContext
     {
         public System.Data.Entity.DbSet<Sales_CountryRegionCurrencyEntity> Sales_CountryRegionCurrencies { get; set; }
         public System.Data.Entity.DbSet<Sales_CreditCardEntity> Sales_CreditCards { get; set; }
@@ -299,6 +313,8 @@ namespace AW_SalesDAL
             Sales_VStoreWithAddresses = new FakeDbSet<Sales_VStoreWithAddressEntity>("BusinessEntityId", "Name", "AddressType", "AddressLine1", "City", "StateProvinceName", "PostalCode", "CountryRegionName");
             Sales_VStoreWithContacts = new FakeDbSet<Sales_VStoreWithContactEntity>("BusinessEntityId", "Name", "ContactType", "FirstName", "LastName", "EmailPromotion");
             Sales_VStoreWithDemographics = new FakeDbSet<Sales_VStoreWithDemographicEntity>("BusinessEntityId", "Name");
+
+            InitializePartial();
         }
 
         public int SaveChangesCount { get; private set; }
@@ -319,6 +335,8 @@ namespace AW_SalesDAL
             ++SaveChangesCount;
             return System.Threading.Tasks.Task<int>.Factory.StartNew(() => 1, cancellationToken);
         }
+
+        partial void InitializePartial();
 
         protected virtual void Dispose(bool disposing)
         {
@@ -380,7 +398,7 @@ namespace AW_SalesDAL
     //      }
     //      Read more about it here: https://msdn.microsoft.com/en-us/data/dn314431.aspx
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbSet<TEntity> : System.Data.Entity.DbSet<TEntity>, IQueryable, System.Collections.Generic.IEnumerable<TEntity>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<TEntity> where TEntity : class
+    public partial class FakeDbSet<TEntity> : System.Data.Entity.DbSet<TEntity>, IQueryable, System.Collections.Generic.IEnumerable<TEntity>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<TEntity> where TEntity : class
     {
         private readonly System.Reflection.PropertyInfo[] _primaryKeys;
         private readonly System.Collections.ObjectModel.ObservableCollection<TEntity> _data;
@@ -390,6 +408,8 @@ namespace AW_SalesDAL
         {
             _data = new System.Collections.ObjectModel.ObservableCollection<TEntity>();
             _query = _data.AsQueryable();
+
+            InitializePartial();
         }
 
         public FakeDbSet(params string[] primaryKeys)
@@ -397,6 +417,8 @@ namespace AW_SalesDAL
             _primaryKeys = typeof(TEntity).GetProperties().Where(x => primaryKeys.Contains(x.Name)).ToArray();
             _data = new System.Collections.ObjectModel.ObservableCollection<TEntity>();
             _query = _data.AsQueryable();
+
+            InitializePartial();
         }
 
         public override TEntity Find(params object[] keyValues)
@@ -513,10 +535,12 @@ namespace AW_SalesDAL
         {
             return new FakeDbAsyncEnumerator<TEntity>(_data.GetEnumerator());
         }
+
+        partial void InitializePartial();
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncQueryProvider<TEntity> : System.Data.Entity.Infrastructure.IDbAsyncQueryProvider
+    public partial class FakeDbAsyncQueryProvider<TEntity> : System.Data.Entity.Infrastructure.IDbAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
 
@@ -566,7 +590,7 @@ namespace AW_SalesDAL
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncEnumerable<T> : EnumerableQuery<T>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<T>, IQueryable<T>
+    public partial class FakeDbAsyncEnumerable<T> : EnumerableQuery<T>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<T>, IQueryable<T>
     {
         public FakeDbAsyncEnumerable(System.Collections.Generic.IEnumerable<T> enumerable)
             : base(enumerable)
@@ -593,7 +617,7 @@ namespace AW_SalesDAL
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncEnumerator<T> : System.Data.Entity.Infrastructure.IDbAsyncEnumerator<T>
+    public partial class FakeDbAsyncEnumerator<T> : System.Data.Entity.Infrastructure.IDbAsyncEnumerator<T>
     {
         private readonly System.Collections.Generic.IEnumerator<T> _inner;
 
@@ -633,7 +657,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("CountryRegionCurrency", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_CountryRegionCurrencyEntity
+    public partial class Sales_CountryRegionCurrencyEntity
     {
 
         ///<summary>
@@ -682,7 +706,10 @@ namespace AW_SalesDAL
         public Sales_CountryRegionCurrencyEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // CreditCard
@@ -691,7 +718,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("CreditCard", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_CreditCardEntity
+    public partial class Sales_CreditCardEntity
     {
 
         ///<summary>
@@ -767,7 +794,10 @@ namespace AW_SalesDAL
             ModifiedDate = System.DateTime.Now;
             Sales_PersonCreditCards = new System.Collections.Generic.List<Sales_PersonCreditCardEntity>();
             Sales_SalesOrderHeaders = new System.Collections.Generic.List<Sales_SalesOrderHeaderEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // Currency
@@ -776,7 +806,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("Currency", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_CurrencyEntity
+    public partial class Sales_CurrencyEntity
     {
 
         ///<summary>
@@ -833,7 +863,10 @@ namespace AW_SalesDAL
             Sales_CountryRegionCurrencies = new System.Collections.Generic.List<Sales_CountryRegionCurrencyEntity>();
             Sales_CurrencyRates_FromCurrencyCode = new System.Collections.Generic.List<Sales_CurrencyRateEntity>();
             Sales_CurrencyRates_ToCurrencyCode = new System.Collections.Generic.List<Sales_CurrencyRateEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // CurrencyRate
@@ -842,7 +875,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("CurrencyRate", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_CurrencyRateEntity
+    public partial class Sales_CurrencyRateEntity
     {
 
         ///<summary>
@@ -938,7 +971,10 @@ namespace AW_SalesDAL
         {
             ModifiedDate = System.DateTime.Now;
             Sales_SalesOrderHeaders = new System.Collections.Generic.List<Sales_SalesOrderHeaderEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // Customer
@@ -947,7 +983,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("Customer", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_CustomerEntity
+    public partial class Sales_CustomerEntity
     {
 
         ///<summary>
@@ -1036,7 +1072,10 @@ namespace AW_SalesDAL
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
             Sales_SalesOrderHeaders = new System.Collections.Generic.List<Sales_SalesOrderHeaderEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // PersonCreditCard
@@ -1045,7 +1084,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("PersonCreditCard", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_PersonCreditCardEntity
+    public partial class Sales_PersonCreditCardEntity
     {
 
         ///<summary>
@@ -1089,7 +1128,10 @@ namespace AW_SalesDAL
         public Sales_PersonCreditCardEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // SalesOrderDetail
@@ -1098,7 +1140,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("SalesOrderDetail", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesOrderDetailEntity
+    public partial class Sales_SalesOrderDetailEntity
     {
 
         ///<summary>
@@ -1218,7 +1260,10 @@ namespace AW_SalesDAL
             UnitPriceDiscount = 0.0m;
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // SalesOrderHeader
@@ -1227,7 +1272,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("SalesOrderHeader", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesOrderHeaderEntity
+    public partial class Sales_SalesOrderHeaderEntity
     {
 
         ///<summary>
@@ -1505,7 +1550,10 @@ namespace AW_SalesDAL
             ModifiedDate = System.DateTime.Now;
             Sales_SalesOrderDetails = new System.Collections.Generic.List<Sales_SalesOrderDetailEntity>();
             Sales_SalesOrderHeaderSalesReasons = new System.Collections.Generic.List<Sales_SalesOrderHeaderSalesReasonEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // SalesOrderHeaderSalesReason
@@ -1514,7 +1562,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("SalesOrderHeaderSalesReason", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesOrderHeaderSalesReasonEntity
+    public partial class Sales_SalesOrderHeaderSalesReasonEntity
     {
 
         ///<summary>
@@ -1563,7 +1611,10 @@ namespace AW_SalesDAL
         public Sales_SalesOrderHeaderSalesReasonEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // SalesPerson
@@ -1572,7 +1623,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("SalesPerson", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesPersonEntity
+    public partial class Sales_SalesPersonEntity
     {
 
         ///<summary>
@@ -1693,7 +1744,10 @@ namespace AW_SalesDAL
             Sales_SalesPersonQuotaHistories = new System.Collections.Generic.List<Sales_SalesPersonQuotaHistoryEntity>();
             Sales_SalesTerritoryHistories = new System.Collections.Generic.List<Sales_SalesTerritoryHistoryEntity>();
             Sales_Stores = new System.Collections.Generic.List<Sales_StoreEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // SalesPersonQuotaHistory
@@ -1702,7 +1756,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("SalesPersonQuotaHistory", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesPersonQuotaHistoryEntity
+    public partial class Sales_SalesPersonQuotaHistoryEntity
     {
 
         ///<summary>
@@ -1766,7 +1820,10 @@ namespace AW_SalesDAL
         {
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // SalesReason
@@ -1775,7 +1832,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("SalesReason", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesReasonEntity
+    public partial class Sales_SalesReasonEntity
     {
 
         ///<summary>
@@ -1829,7 +1886,10 @@ namespace AW_SalesDAL
         {
             ModifiedDate = System.DateTime.Now;
             Sales_SalesOrderHeaderSalesReasons = new System.Collections.Generic.List<Sales_SalesOrderHeaderSalesReasonEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // SalesTaxRate
@@ -1838,7 +1898,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("SalesTaxRate", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesTaxRateEntity
+    public partial class Sales_SalesTaxRateEntity
     {
 
         ///<summary>
@@ -1912,7 +1972,10 @@ namespace AW_SalesDAL
             TaxRate = 0.00m;
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // SalesTerritory
@@ -1921,7 +1984,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("SalesTerritory", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesTerritoryEntity
+    public partial class Sales_SalesTerritoryEntity
     {
 
         ///<summary>
@@ -2051,7 +2114,10 @@ namespace AW_SalesDAL
             Sales_SalesOrderHeaders = new System.Collections.Generic.List<Sales_SalesOrderHeaderEntity>();
             Sales_SalesPersons = new System.Collections.Generic.List<Sales_SalesPersonEntity>();
             Sales_SalesTerritoryHistories = new System.Collections.Generic.List<Sales_SalesTerritoryHistoryEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // SalesTerritoryHistory
@@ -2060,7 +2126,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("SalesTerritoryHistory", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesTerritoryHistoryEntity
+    public partial class Sales_SalesTerritoryHistoryEntity
     {
 
         ///<summary>
@@ -2139,7 +2205,10 @@ namespace AW_SalesDAL
         {
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ShoppingCartItem
@@ -2148,7 +2217,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("ShoppingCartItem", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_ShoppingCartItemEntity
+    public partial class Sales_ShoppingCartItemEntity
     {
 
         ///<summary>
@@ -2213,7 +2282,10 @@ namespace AW_SalesDAL
             Quantity = 1;
             DateCreated = System.DateTime.Now;
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // SpecialOffer
@@ -2222,7 +2294,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("SpecialOffer", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SpecialOfferEntity
+    public partial class Sales_SpecialOfferEntity
     {
 
         ///<summary>
@@ -2340,7 +2412,10 @@ namespace AW_SalesDAL
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
             Sales_SpecialOfferProducts = new System.Collections.Generic.List<Sales_SpecialOfferProductEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // SpecialOfferProduct
@@ -2349,7 +2424,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("SpecialOfferProduct", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SpecialOfferProductEntity
+    public partial class Sales_SpecialOfferProductEntity
     {
 
         ///<summary>
@@ -2412,7 +2487,10 @@ namespace AW_SalesDAL
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
             Sales_SalesOrderDetails = new System.Collections.Generic.List<Sales_SalesOrderDetailEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // Store
@@ -2421,7 +2499,7 @@ namespace AW_SalesDAL
     ///</summary>
     [Table("Store", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_StoreEntity
+    public partial class Sales_StoreEntity
     {
 
         ///<summary>
@@ -2497,13 +2575,16 @@ namespace AW_SalesDAL
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
             Sales_Customers = new System.Collections.Generic.List<Sales_CustomerEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // vIndividualCustomer
     [Table("vIndividualCustomer", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VIndividualCustomerEntity
+    public partial class Sales_VIndividualCustomerEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"BusinessEntityID", Order = 1, TypeName = "int")]
@@ -2639,12 +2720,19 @@ namespace AW_SalesDAL
         [Column(@"Demographics", Order = 18, TypeName = "xml")]
         [Display(Name = "Demographics")]
         public string Demographics { get; set; } // Demographics
+
+        public Sales_VIndividualCustomerEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vPersonDemographics
     [Table("vPersonDemographics", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VPersonDemographicEntity
+    public partial class Sales_VPersonDemographicEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"BusinessEntityID", Order = 1, TypeName = "int")]
@@ -2713,12 +2801,19 @@ namespace AW_SalesDAL
         [Column(@"NumberCarsOwned", Order = 13, TypeName = "int")]
         [Display(Name = "Number cars owned")]
         public int? NumberCarsOwned { get; set; } // NumberCarsOwned
+
+        public Sales_VPersonDemographicEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vSalesPerson
     [Table("vSalesPerson", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VSalesPersonEntity
+    public partial class Sales_VSalesPersonEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"BusinessEntityID", Order = 1, TypeName = "int")]
@@ -2883,12 +2978,19 @@ namespace AW_SalesDAL
         [DataType(DataType.Currency)]
         [Display(Name = "Sales last year")]
         public decimal SalesLastYear { get; set; } // SalesLastYear (Primary key)
+
+        public Sales_VSalesPersonEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vSalesPersonSalesByFiscalYears
     [Table("vSalesPersonSalesByFiscalYears", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VSalesPersonSalesByFiscalYearEntity
+    public partial class Sales_VSalesPersonSalesByFiscalYearEntity
     {
         [Column(@"SalesPersonID", Order = 1, TypeName = "int")]
         [Display(Name = "Sales person ID")]
@@ -2932,12 +3034,19 @@ namespace AW_SalesDAL
         [DataType(DataType.Currency)]
         [Display(Name = "2004")]
         public decimal? C2004 { get; set; } // 2004
+
+        public Sales_VSalesPersonSalesByFiscalYearEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vStoreWithAddresses
     [Table("vStoreWithAddresses", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VStoreWithAddressEntity
+    public partial class Sales_VStoreWithAddressEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"BusinessEntityID", Order = 1, TypeName = "int")]
@@ -3015,12 +3124,19 @@ namespace AW_SalesDAL
         [Key]
         [Display(Name = "Country region name")]
         public string CountryRegionName { get; set; } // CountryRegionName (Primary key) (length: 50)
+
+        public Sales_VStoreWithAddressEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vStoreWithContacts
     [Table("vStoreWithContacts", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VStoreWithContactEntity
+    public partial class Sales_VStoreWithContactEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"BusinessEntityID", Order = 1, TypeName = "int")]
@@ -3109,12 +3225,19 @@ namespace AW_SalesDAL
         [Key]
         [Display(Name = "Email promotion")]
         public int EmailPromotion { get; set; } // EmailPromotion (Primary key)
+
+        public Sales_VStoreWithContactEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vStoreWithDemographics
     [Table("vStoreWithDemographics", Schema = "Sales")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VStoreWithDemographicEntity
+    public partial class Sales_VStoreWithDemographicEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"BusinessEntityID", Order = 1, TypeName = "int")]
@@ -3183,6 +3306,13 @@ namespace AW_SalesDAL
         [Column(@"NumberEmployees", Order = 12, TypeName = "int")]
         [Display(Name = "Number employees")]
         public int? NumberEmployees { get; set; } // NumberEmployees
+
+        public Sales_VStoreWithDemographicEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     #endregion
@@ -3191,7 +3321,7 @@ namespace AW_SalesDAL
 
     // CountryRegionCurrency
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_CountryRegionCurrencyEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_CountryRegionCurrencyEntity>
+    public partial class Sales_CountryRegionCurrencyEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_CountryRegionCurrencyEntity>
     {
         public Sales_CountryRegionCurrencyEntityMapping()
             : this("Sales")
@@ -3202,12 +3332,14 @@ namespace AW_SalesDAL
         {
             Property(x => x.CurrencyCode).IsFixedLength();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // CreditCard
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_CreditCardEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_CreditCardEntity>
+    public partial class Sales_CreditCardEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_CreditCardEntity>
     {
         public Sales_CreditCardEntityMapping()
             : this("Sales")
@@ -3216,12 +3348,14 @@ namespace AW_SalesDAL
 
         public Sales_CreditCardEntityMapping(string schema)
         {
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // Currency
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_CurrencyEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_CurrencyEntity>
+    public partial class Sales_CurrencyEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_CurrencyEntity>
     {
         public Sales_CurrencyEntityMapping()
             : this("Sales")
@@ -3231,12 +3365,14 @@ namespace AW_SalesDAL
         public Sales_CurrencyEntityMapping(string schema)
         {
             Property(x => x.CurrencyCode).IsFixedLength();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // CurrencyRate
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_CurrencyRateEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_CurrencyRateEntity>
+    public partial class Sales_CurrencyRateEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_CurrencyRateEntity>
     {
         public Sales_CurrencyRateEntityMapping()
             : this("Sales")
@@ -3250,12 +3386,14 @@ namespace AW_SalesDAL
             Property(x => x.AverageRate).HasPrecision(19,4);
             Property(x => x.EndOfDayRate).HasPrecision(19,4);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // Customer
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_CustomerEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_CustomerEntity>
+    public partial class Sales_CustomerEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_CustomerEntity>
     {
         public Sales_CustomerEntityMapping()
             : this("Sales")
@@ -3269,12 +3407,14 @@ namespace AW_SalesDAL
             Property(x => x.TerritoryId).IsOptional();
             Property(x => x.AccountNumber).IsUnicode(false);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // PersonCreditCard
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_PersonCreditCardEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_PersonCreditCardEntity>
+    public partial class Sales_PersonCreditCardEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_PersonCreditCardEntity>
     {
         public Sales_PersonCreditCardEntityMapping()
             : this("Sales")
@@ -3284,12 +3424,14 @@ namespace AW_SalesDAL
         public Sales_PersonCreditCardEntityMapping(string schema)
         {
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // SalesOrderDetail
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesOrderDetailEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesOrderDetailEntity>
+    public partial class Sales_SalesOrderDetailEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesOrderDetailEntity>
     {
         public Sales_SalesOrderDetailEntityMapping()
             : this("Sales")
@@ -3303,12 +3445,14 @@ namespace AW_SalesDAL
             Property(x => x.UnitPriceDiscount).HasPrecision(19,4);
             Property(x => x.LineTotal).HasPrecision(38,6);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // SalesOrderHeader
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesOrderHeaderEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesOrderHeaderEntity>
+    public partial class Sales_SalesOrderHeaderEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesOrderHeaderEntity>
     {
         public Sales_SalesOrderHeaderEntityMapping()
             : this("Sales")
@@ -3331,12 +3475,14 @@ namespace AW_SalesDAL
             Property(x => x.TotalDue).HasPrecision(19,4);
             Property(x => x.Comment).IsOptional();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // SalesOrderHeaderSalesReason
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesOrderHeaderSalesReasonEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesOrderHeaderSalesReasonEntity>
+    public partial class Sales_SalesOrderHeaderSalesReasonEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesOrderHeaderSalesReasonEntity>
     {
         public Sales_SalesOrderHeaderSalesReasonEntityMapping()
             : this("Sales")
@@ -3346,12 +3492,14 @@ namespace AW_SalesDAL
         public Sales_SalesOrderHeaderSalesReasonEntityMapping(string schema)
         {
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // SalesPerson
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesPersonEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesPersonEntity>
+    public partial class Sales_SalesPersonEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesPersonEntity>
     {
         public Sales_SalesPersonEntityMapping()
             : this("Sales")
@@ -3367,12 +3515,14 @@ namespace AW_SalesDAL
             Property(x => x.SalesYtd).HasPrecision(19,4);
             Property(x => x.SalesLastYear).HasPrecision(19,4);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // SalesPersonQuotaHistory
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesPersonQuotaHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesPersonQuotaHistoryEntity>
+    public partial class Sales_SalesPersonQuotaHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesPersonQuotaHistoryEntity>
     {
         public Sales_SalesPersonQuotaHistoryEntityMapping()
             : this("Sales")
@@ -3383,12 +3533,14 @@ namespace AW_SalesDAL
         {
             Property(x => x.SalesQuota).HasPrecision(19,4);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // SalesReason
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesReasonEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesReasonEntity>
+    public partial class Sales_SalesReasonEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesReasonEntity>
     {
         public Sales_SalesReasonEntityMapping()
             : this("Sales")
@@ -3397,12 +3549,14 @@ namespace AW_SalesDAL
 
         public Sales_SalesReasonEntityMapping(string schema)
         {
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // SalesTaxRate
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesTaxRateEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesTaxRateEntity>
+    public partial class Sales_SalesTaxRateEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesTaxRateEntity>
     {
         public Sales_SalesTaxRateEntityMapping()
             : this("Sales")
@@ -3412,12 +3566,14 @@ namespace AW_SalesDAL
         public Sales_SalesTaxRateEntityMapping(string schema)
         {
             Property(x => x.TaxRate).HasPrecision(10,4);
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // SalesTerritory
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesTerritoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesTerritoryEntity>
+    public partial class Sales_SalesTerritoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesTerritoryEntity>
     {
         public Sales_SalesTerritoryEntityMapping()
             : this("Sales")
@@ -3430,12 +3586,14 @@ namespace AW_SalesDAL
             Property(x => x.SalesLastYear).HasPrecision(19,4);
             Property(x => x.CostYtd).HasPrecision(19,4);
             Property(x => x.CostLastYear).HasPrecision(19,4);
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // SalesTerritoryHistory
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SalesTerritoryHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesTerritoryHistoryEntity>
+    public partial class Sales_SalesTerritoryHistoryEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SalesTerritoryHistoryEntity>
     {
         public Sales_SalesTerritoryHistoryEntityMapping()
             : this("Sales")
@@ -3446,12 +3604,14 @@ namespace AW_SalesDAL
         {
             Property(x => x.EndDate).IsOptional();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ShoppingCartItem
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_ShoppingCartItemEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_ShoppingCartItemEntity>
+    public partial class Sales_ShoppingCartItemEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_ShoppingCartItemEntity>
     {
         public Sales_ShoppingCartItemEntityMapping()
             : this("Sales")
@@ -3460,12 +3620,14 @@ namespace AW_SalesDAL
 
         public Sales_ShoppingCartItemEntityMapping(string schema)
         {
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // SpecialOffer
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SpecialOfferEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SpecialOfferEntity>
+    public partial class Sales_SpecialOfferEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SpecialOfferEntity>
     {
         public Sales_SpecialOfferEntityMapping()
             : this("Sales")
@@ -3476,12 +3638,14 @@ namespace AW_SalesDAL
         {
             Property(x => x.DiscountPct).HasPrecision(10,4);
             Property(x => x.MaxQty).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // SpecialOfferProduct
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_SpecialOfferProductEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SpecialOfferProductEntity>
+    public partial class Sales_SpecialOfferProductEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_SpecialOfferProductEntity>
     {
         public Sales_SpecialOfferProductEntityMapping()
             : this("Sales")
@@ -3491,12 +3655,14 @@ namespace AW_SalesDAL
         public Sales_SpecialOfferProductEntityMapping(string schema)
         {
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // Store
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_StoreEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_StoreEntity>
+    public partial class Sales_StoreEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_StoreEntity>
     {
         public Sales_StoreEntityMapping()
             : this("Sales")
@@ -3508,12 +3674,14 @@ namespace AW_SalesDAL
             Property(x => x.SalesPersonId).IsOptional();
             Property(x => x.Demographics).IsOptional();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vIndividualCustomer
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VIndividualCustomerEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VIndividualCustomerEntity>
+    public partial class Sales_VIndividualCustomerEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VIndividualCustomerEntity>
     {
         public Sales_VIndividualCustomerEntityMapping()
             : this("Sales")
@@ -3530,12 +3698,14 @@ namespace AW_SalesDAL
             Property(x => x.EmailAddress).IsOptional();
             Property(x => x.AddressLine2).IsOptional();
             Property(x => x.Demographics).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vPersonDemographics
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VPersonDemographicEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VPersonDemographicEntity>
+    public partial class Sales_VPersonDemographicEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VPersonDemographicEntity>
     {
         public Sales_VPersonDemographicEntityMapping()
             : this("Sales")
@@ -3556,12 +3726,14 @@ namespace AW_SalesDAL
             Property(x => x.Occupation).IsOptional();
             Property(x => x.HomeOwnerFlag).IsOptional();
             Property(x => x.NumberCarsOwned).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vSalesPerson
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VSalesPersonEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VSalesPersonEntity>
+    public partial class Sales_VSalesPersonEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VSalesPersonEntity>
     {
         public Sales_VSalesPersonEntityMapping()
             : this("Sales")
@@ -3582,12 +3754,14 @@ namespace AW_SalesDAL
             Property(x => x.SalesQuota).IsOptional().HasPrecision(19,4);
             Property(x => x.SalesYtd).HasPrecision(19,4);
             Property(x => x.SalesLastYear).HasPrecision(19,4);
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vSalesPersonSalesByFiscalYears
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VSalesPersonSalesByFiscalYearEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VSalesPersonSalesByFiscalYearEntity>
+    public partial class Sales_VSalesPersonSalesByFiscalYearEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VSalesPersonSalesByFiscalYearEntity>
     {
         public Sales_VSalesPersonSalesByFiscalYearEntityMapping()
             : this("Sales")
@@ -3601,12 +3775,14 @@ namespace AW_SalesDAL
             Property(x => x.C2002).IsOptional().HasPrecision(19,4);
             Property(x => x.C2003).IsOptional().HasPrecision(19,4);
             Property(x => x.C2004).IsOptional().HasPrecision(19,4);
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vStoreWithAddresses
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VStoreWithAddressEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VStoreWithAddressEntity>
+    public partial class Sales_VStoreWithAddressEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VStoreWithAddressEntity>
     {
         public Sales_VStoreWithAddressEntityMapping()
             : this("Sales")
@@ -3616,12 +3792,14 @@ namespace AW_SalesDAL
         public Sales_VStoreWithAddressEntityMapping(string schema)
         {
             Property(x => x.AddressLine2).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vStoreWithContacts
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VStoreWithContactEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VStoreWithContactEntity>
+    public partial class Sales_VStoreWithContactEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VStoreWithContactEntity>
     {
         public Sales_VStoreWithContactEntityMapping()
             : this("Sales")
@@ -3636,12 +3814,14 @@ namespace AW_SalesDAL
             Property(x => x.PhoneNumber).IsOptional();
             Property(x => x.PhoneNumberType).IsOptional();
             Property(x => x.EmailAddress).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vStoreWithDemographics
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Sales_VStoreWithDemographicEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VStoreWithDemographicEntity>
+    public partial class Sales_VStoreWithDemographicEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Sales_VStoreWithDemographicEntity>
     {
         public Sales_VStoreWithDemographicEntityMapping()
             : this("Sales")
@@ -3660,7 +3840,9 @@ namespace AW_SalesDAL
             Property(x => x.Brands).IsOptional();
             Property(x => x.Internet).IsOptional();
             Property(x => x.NumberEmployees).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     #endregion

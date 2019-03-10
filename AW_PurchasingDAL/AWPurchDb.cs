@@ -37,7 +37,7 @@ namespace AW_PurchasingDAL
 
     #region Unit of work
 
-    public interface IPurchDbContext : System.IDisposable
+    public partial interface IPurchDbContext : System.IDisposable
     {
         System.Data.Entity.DbSet<Purchasing_ProductVendorEntity> Purchasing_ProductVendors { get; set; } // ProductVendor
         System.Data.Entity.DbSet<Purchasing_PurchaseOrderDetailEntity> Purchasing_PurchaseOrderDetails { get; set; } // PurchaseOrderDetail
@@ -66,7 +66,7 @@ namespace AW_PurchasingDAL
     #region Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class PurchDbContext : System.Data.Entity.DbContext, IPurchDbContext
+    public partial class PurchDbContext : System.Data.Entity.DbContext, IPurchDbContext
     {
         public System.Data.Entity.DbSet<Purchasing_ProductVendorEntity> Purchasing_ProductVendors { get; set; } // ProductVendor
         public System.Data.Entity.DbSet<Purchasing_PurchaseOrderDetailEntity> Purchasing_PurchaseOrderDetails { get; set; } // PurchaseOrderDetail
@@ -84,30 +84,36 @@ namespace AW_PurchasingDAL
         public PurchDbContext()
             : base("Name=AW2016_PurchDb")
         {
+            InitializePartial();
         }
 
         public PurchDbContext(string connectionString)
             : base(connectionString)
         {
+            InitializePartial();
         }
 
         public PurchDbContext(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model)
             : base(connectionString, model)
         {
+            InitializePartial();
         }
 
         public PurchDbContext(System.Data.Common.DbConnection existingConnection, bool contextOwnsConnection)
             : base(existingConnection, contextOwnsConnection)
         {
+            InitializePartial();
         }
 
         public PurchDbContext(System.Data.Common.DbConnection existingConnection, System.Data.Entity.Infrastructure.DbCompiledModel model, bool contextOwnsConnection)
             : base(existingConnection, model, contextOwnsConnection)
         {
+            InitializePartial();
         }
 
         protected override void Dispose(bool disposing)
         {
+            DisposePartial(disposing);
             base.Dispose(disposing);
         }
 
@@ -131,6 +137,8 @@ namespace AW_PurchasingDAL
             modelBuilder.Configurations.Add(new Purchasing_VendorEntityMapping());
             modelBuilder.Configurations.Add(new Purchasing_VVendorWithAddressEntityMapping());
             modelBuilder.Configurations.Add(new Purchasing_VVendorWithContactEntityMapping());
+
+            OnModelCreatingPartial(modelBuilder);
         }
 
         public static System.Data.Entity.DbModelBuilder CreateModel(System.Data.Entity.DbModelBuilder modelBuilder, string schema)
@@ -142,14 +150,20 @@ namespace AW_PurchasingDAL
             modelBuilder.Configurations.Add(new Purchasing_VendorEntityMapping(schema));
             modelBuilder.Configurations.Add(new Purchasing_VVendorWithAddressEntityMapping(schema));
             modelBuilder.Configurations.Add(new Purchasing_VVendorWithContactEntityMapping(schema));
+            OnCreateModelPartial(modelBuilder, schema);
             return modelBuilder;
         }
+
+        partial void InitializePartial();
+        partial void DisposePartial(bool disposing);
+        partial void OnModelCreatingPartial(System.Data.Entity.DbModelBuilder modelBuilder);
+		static partial void OnCreateModelPartial(System.Data.Entity.DbModelBuilder modelBuilder, string schema);        
     }
     #endregion
 
     #region Database context factory
 
-    public class PurchDbContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<PurchDbContext>
+    public partial class PurchDbContextFactory : System.Data.Entity.Infrastructure.IDbContextFactory<PurchDbContext>
     {
         public PurchDbContext Create()
         {
@@ -162,7 +176,7 @@ namespace AW_PurchasingDAL
     #region Fake Database context
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakePurchDbContext : IPurchDbContext
+    public partial class FakePurchDbContext : IPurchDbContext
     {
         public System.Data.Entity.DbSet<Purchasing_ProductVendorEntity> Purchasing_ProductVendors { get; set; }
         public System.Data.Entity.DbSet<Purchasing_PurchaseOrderDetailEntity> Purchasing_PurchaseOrderDetails { get; set; }
@@ -185,6 +199,8 @@ namespace AW_PurchasingDAL
             Purchasing_Vendors = new FakeDbSet<Purchasing_VendorEntity>("BusinessEntityId");
             Purchasing_VVendorWithAddresses = new FakeDbSet<Purchasing_VVendorWithAddressEntity>("BusinessEntityId", "Name", "AddressType", "AddressLine1", "City", "StateProvinceName", "PostalCode", "CountryRegionName");
             Purchasing_VVendorWithContacts = new FakeDbSet<Purchasing_VVendorWithContactEntity>("BusinessEntityId", "Name", "ContactType", "FirstName", "LastName", "EmailPromotion");
+
+            InitializePartial();
         }
 
         public int SaveChangesCount { get; private set; }
@@ -205,6 +221,8 @@ namespace AW_PurchasingDAL
             ++SaveChangesCount;
             return System.Threading.Tasks.Task<int>.Factory.StartNew(() => 1, cancellationToken);
         }
+
+        partial void InitializePartial();
 
         protected virtual void Dispose(bool disposing)
         {
@@ -266,7 +284,7 @@ namespace AW_PurchasingDAL
     //      }
     //      Read more about it here: https://msdn.microsoft.com/en-us/data/dn314431.aspx
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbSet<TEntity> : System.Data.Entity.DbSet<TEntity>, IQueryable, System.Collections.Generic.IEnumerable<TEntity>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<TEntity> where TEntity : class
+    public partial class FakeDbSet<TEntity> : System.Data.Entity.DbSet<TEntity>, IQueryable, System.Collections.Generic.IEnumerable<TEntity>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<TEntity> where TEntity : class
     {
         private readonly System.Reflection.PropertyInfo[] _primaryKeys;
         private readonly System.Collections.ObjectModel.ObservableCollection<TEntity> _data;
@@ -276,6 +294,8 @@ namespace AW_PurchasingDAL
         {
             _data = new System.Collections.ObjectModel.ObservableCollection<TEntity>();
             _query = _data.AsQueryable();
+
+            InitializePartial();
         }
 
         public FakeDbSet(params string[] primaryKeys)
@@ -283,6 +303,8 @@ namespace AW_PurchasingDAL
             _primaryKeys = typeof(TEntity).GetProperties().Where(x => primaryKeys.Contains(x.Name)).ToArray();
             _data = new System.Collections.ObjectModel.ObservableCollection<TEntity>();
             _query = _data.AsQueryable();
+
+            InitializePartial();
         }
 
         public override TEntity Find(params object[] keyValues)
@@ -399,10 +421,12 @@ namespace AW_PurchasingDAL
         {
             return new FakeDbAsyncEnumerator<TEntity>(_data.GetEnumerator());
         }
+
+        partial void InitializePartial();
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncQueryProvider<TEntity> : System.Data.Entity.Infrastructure.IDbAsyncQueryProvider
+    public partial class FakeDbAsyncQueryProvider<TEntity> : System.Data.Entity.Infrastructure.IDbAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
 
@@ -452,7 +476,7 @@ namespace AW_PurchasingDAL
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncEnumerable<T> : EnumerableQuery<T>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<T>, IQueryable<T>
+    public partial class FakeDbAsyncEnumerable<T> : EnumerableQuery<T>, System.Data.Entity.Infrastructure.IDbAsyncEnumerable<T>, IQueryable<T>
     {
         public FakeDbAsyncEnumerable(System.Collections.Generic.IEnumerable<T> enumerable)
             : base(enumerable)
@@ -479,7 +503,7 @@ namespace AW_PurchasingDAL
     }
 
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class FakeDbAsyncEnumerator<T> : System.Data.Entity.Infrastructure.IDbAsyncEnumerator<T>
+    public partial class FakeDbAsyncEnumerator<T> : System.Data.Entity.Infrastructure.IDbAsyncEnumerator<T>
     {
         private readonly System.Collections.Generic.IEnumerator<T> _inner;
 
@@ -519,7 +543,7 @@ namespace AW_PurchasingDAL
     ///</summary>
     [Table("ProductVendor", Schema = "Purchasing")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_ProductVendorEntity
+    public partial class Purchasing_ProductVendorEntity
     {
 
         ///<summary>
@@ -631,7 +655,10 @@ namespace AW_PurchasingDAL
         public Purchasing_ProductVendorEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // PurchaseOrderDetail
@@ -640,7 +667,7 @@ namespace AW_PurchasingDAL
     ///</summary>
     [Table("PurchaseOrderDetail", Schema = "Purchasing")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_PurchaseOrderDetailEntity
+    public partial class Purchasing_PurchaseOrderDetailEntity
     {
 
         ///<summary>
@@ -752,7 +779,10 @@ namespace AW_PurchasingDAL
         public Purchasing_PurchaseOrderDetailEntity()
         {
             ModifiedDate = System.DateTime.Now;
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // PurchaseOrderHeader
@@ -761,7 +791,7 @@ namespace AW_PurchasingDAL
     ///</summary>
     [Table("PurchaseOrderHeader", Schema = "Purchasing")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_PurchaseOrderHeaderEntity
+    public partial class Purchasing_PurchaseOrderHeaderEntity
     {
 
         ///<summary>
@@ -908,7 +938,10 @@ namespace AW_PurchasingDAL
             Freight = 0.00m;
             ModifiedDate = System.DateTime.Now;
             Purchasing_PurchaseOrderDetails = new System.Collections.Generic.List<Purchasing_PurchaseOrderDetailEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // ShipMethod
@@ -917,7 +950,7 @@ namespace AW_PurchasingDAL
     ///</summary>
     [Table("ShipMethod", Schema = "Purchasing")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_ShipMethodEntity
+    public partial class Purchasing_ShipMethodEntity
     {
 
         ///<summary>
@@ -992,7 +1025,10 @@ namespace AW_PurchasingDAL
             Rowguid = System.Guid.NewGuid();
             ModifiedDate = System.DateTime.Now;
             Purchasing_PurchaseOrderHeaders = new System.Collections.Generic.List<Purchasing_PurchaseOrderHeaderEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // Vendor
@@ -1001,7 +1037,7 @@ namespace AW_PurchasingDAL
     ///</summary>
     [Table("Vendor", Schema = "Purchasing")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_VendorEntity
+    public partial class Purchasing_VendorEntity
     {
 
         ///<summary>
@@ -1096,13 +1132,16 @@ namespace AW_PurchasingDAL
             ModifiedDate = System.DateTime.Now;
             Purchasing_ProductVendors = new System.Collections.Generic.List<Purchasing_ProductVendorEntity>();
             Purchasing_PurchaseOrderHeaders = new System.Collections.Generic.List<Purchasing_PurchaseOrderHeaderEntity>();
+            InitializePartial();
         }
+
+        partial void InitializePartial();
     }
 
     // vVendorWithAddresses
     [Table("vVendorWithAddresses", Schema = "Purchasing")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_VVendorWithAddressEntity
+    public partial class Purchasing_VVendorWithAddressEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"BusinessEntityID", Order = 1, TypeName = "int")]
@@ -1180,12 +1219,19 @@ namespace AW_PurchasingDAL
         [Key]
         [Display(Name = "Country region name")]
         public string CountryRegionName { get; set; } // CountryRegionName (Primary key) (length: 50)
+
+        public Purchasing_VVendorWithAddressEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     // vVendorWithContacts
     [Table("vVendorWithContacts", Schema = "Purchasing")]
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_VVendorWithContactEntity
+    public partial class Purchasing_VVendorWithContactEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(@"BusinessEntityID", Order = 1, TypeName = "int")]
@@ -1274,6 +1320,13 @@ namespace AW_PurchasingDAL
         [Key]
         [Display(Name = "Email promotion")]
         public int EmailPromotion { get; set; } // EmailPromotion (Primary key)
+
+        public Purchasing_VVendorWithContactEntity()
+        {
+            InitializePartial();
+        }
+
+        partial void InitializePartial();
     }
 
     #endregion
@@ -1282,7 +1335,7 @@ namespace AW_PurchasingDAL
 
     // ProductVendor
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_ProductVendorEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_ProductVendorEntity>
+    public partial class Purchasing_ProductVendorEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_ProductVendorEntity>
     {
         public Purchasing_ProductVendorEntityMapping()
             : this("Purchasing")
@@ -1297,12 +1350,14 @@ namespace AW_PurchasingDAL
             Property(x => x.OnOrderQty).IsOptional();
             Property(x => x.UnitMeasureCode).IsFixedLength();
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // PurchaseOrderDetail
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_PurchaseOrderDetailEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_PurchaseOrderDetailEntity>
+    public partial class Purchasing_PurchaseOrderDetailEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_PurchaseOrderDetailEntity>
     {
         public Purchasing_PurchaseOrderDetailEntityMapping()
             : this("Purchasing")
@@ -1317,12 +1372,14 @@ namespace AW_PurchasingDAL
             Property(x => x.RejectedQty).HasPrecision(8,2);
             Property(x => x.StockedQty).HasPrecision(9,2);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // PurchaseOrderHeader
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_PurchaseOrderHeaderEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_PurchaseOrderHeaderEntity>
+    public partial class Purchasing_PurchaseOrderHeaderEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_PurchaseOrderHeaderEntity>
     {
         public Purchasing_PurchaseOrderHeaderEntityMapping()
             : this("Purchasing")
@@ -1337,12 +1394,14 @@ namespace AW_PurchasingDAL
             Property(x => x.Freight).HasPrecision(19,4);
             Property(x => x.TotalDue).HasPrecision(19,4);
 
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // ShipMethod
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_ShipMethodEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_ShipMethodEntity>
+    public partial class Purchasing_ShipMethodEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_ShipMethodEntity>
     {
         public Purchasing_ShipMethodEntityMapping()
             : this("Purchasing")
@@ -1353,12 +1412,14 @@ namespace AW_PurchasingDAL
         {
             Property(x => x.ShipBase).HasPrecision(19,4);
             Property(x => x.ShipRate).HasPrecision(19,4);
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // Vendor
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_VendorEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_VendorEntity>
+    public partial class Purchasing_VendorEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_VendorEntity>
     {
         public Purchasing_VendorEntityMapping()
             : this("Purchasing")
@@ -1368,12 +1429,14 @@ namespace AW_PurchasingDAL
         public Purchasing_VendorEntityMapping(string schema)
         {
             Property(x => x.PurchasingWebServiceUrl).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vVendorWithAddresses
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_VVendorWithAddressEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_VVendorWithAddressEntity>
+    public partial class Purchasing_VVendorWithAddressEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_VVendorWithAddressEntity>
     {
         public Purchasing_VVendorWithAddressEntityMapping()
             : this("Purchasing")
@@ -1383,12 +1446,14 @@ namespace AW_PurchasingDAL
         public Purchasing_VVendorWithAddressEntityMapping(string schema)
         {
             Property(x => x.AddressLine2).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     // vVendorWithContacts
     [System.CodeDom.Compiler.GeneratedCode("EF.Reverse.POCO.Generator", "2.37.2.0")]
-    public class Purchasing_VVendorWithContactEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_VVendorWithContactEntity>
+    public partial class Purchasing_VVendorWithContactEntityMapping : System.Data.Entity.ModelConfiguration.EntityTypeConfiguration<Purchasing_VVendorWithContactEntity>
     {
         public Purchasing_VVendorWithContactEntityMapping()
             : this("Purchasing")
@@ -1403,7 +1468,9 @@ namespace AW_PurchasingDAL
             Property(x => x.PhoneNumber).IsOptional();
             Property(x => x.PhoneNumberType).IsOptional();
             Property(x => x.EmailAddress).IsOptional();
+            InitializePartial();
         }
+        partial void InitializePartial();
     }
 
     #endregion
