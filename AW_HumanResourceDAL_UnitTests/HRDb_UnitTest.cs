@@ -4,8 +4,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AW_HumanResourceDAL_UnitTests
 {
     [TestClass]
-    public class UnitTest1
+    public class HRDb_UnitTest
     {
+        [TestInitialize]
+        public void TestSetup()
+        {
+        }
+
         [TestMethod]
         public void TestMethod1()
         {
